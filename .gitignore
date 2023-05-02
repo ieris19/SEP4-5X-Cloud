@@ -25,6 +25,7 @@ target/
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+.idea/**/misc.xml
 
 # Generated files
 .idea/**/contentModel.xml
@@ -51,8 +52,9 @@ target/
 *.iml
 *.ipr
 
-# Mongo Explorer plugin
+# Plugin configs
 .idea/**/mongoSettings.xml
+.idea/**/jpa-buddy.xml
 
 # Editor-based Rest Client
 .idea/httpRequests
