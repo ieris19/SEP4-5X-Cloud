@@ -12,4 +12,9 @@ public class WebController {
     public ResponseEntity<String> getLastReading() {
         return ResponseEntity.ok(WebJSONData.getDataAsJSON());
     }
+
+    @GetMapping("/readings/last")
+    public ResponseEntity<String> getReadings() {
+        return ResponseEntity.ok(WebJSONData.tempToJSON(0, WebRepository.getLastReading()));
+    }
 }
