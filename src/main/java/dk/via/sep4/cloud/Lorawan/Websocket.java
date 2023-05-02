@@ -1,10 +1,16 @@
 package dk.via.sep4.cloud.Lorawan;
 
+import dk.via.sep4.cloud.Persistance.SensorReading;
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Hex;
 import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.WebSocket;
 import java.nio.ByteBuffer;
+import java.util.HexFormat;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
 
@@ -62,9 +68,35 @@ public class Websocket implements WebSocket.Listener {
     };
     //onText()
     public CompletionStage<?> onText​(WebSocket webSocket, CharSequence data, boolean last) {
+        System.out.println("OnText entered");
         String indented = (new JSONObject(data.toString())).toString(4);
-        System.out.println(indented);
+
+
+        JSONObject dataJson = new JSONObject(data.toString());
+        String dataValue = dataJson.getString("data");
+        String commandValue = dataJson.getString("cmd");
+
+        if(commandValue.equals("rx")){
+            byte[] dataBytes = dataValue.getBytes();
+
+            String dataValueString = dataValue.substring(2,6);
+
+            int dataInt = Integer.parseInt(dataValueString,16);
+
+            double dataDouble = ((double) dataInt )/10;
+
+            System.out.println("Double: " + dataDouble);
+            SensorReading sensorReading = new SensorReading(dataDouble);
+        }else{
+            System.out.println("Command value: " + commandValue);
+            System.out.println("Intended: " + indented);
+        }
+
+
+
         webSocket.request(1);
         return new CompletableFuture().completedFuture("onText() completed.").thenAccept(System.out::println);
     };
+
+
 }
