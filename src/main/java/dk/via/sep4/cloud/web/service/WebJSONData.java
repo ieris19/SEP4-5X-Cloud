@@ -8,13 +8,19 @@ public class WebJSONData {
 		data.append("\"tempReadings\":[");
 		SensorReading[] readings = WebRepository.getReadings();
 		for (int i = 0; i < readings.length; i++) {
-			if (i != 0) data.append(",");
-			data.append("{");
-			data.append("\"readingNumber\":").append(i).append(",");
-			data.append("\"temperature\":").append(readings[i].getTemperature()).append(",");
-			data.append("}");
+			data.append(tempToJSON(i, readings[i]));
 		}
 		data.append("]");
+		data.append("}");
+		return data.toString();
+	}
+
+	public static String tempToJSON(int index, SensorReading reading) {
+		StringBuilder data = new StringBuilder();
+		if (index != 0) data.append(",");
+		data.append("{");
+		data.append("\"readingNumber\":").append(index).append(",");
+		data.append("\"temperature\":").append(reading != null ? reading.getTemperature() : "null");
 		data.append("}");
 		return data.toString();
 	}

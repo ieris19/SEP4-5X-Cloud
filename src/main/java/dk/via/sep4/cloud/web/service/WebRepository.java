@@ -20,7 +20,7 @@ public class WebRepository {
 	}
 
 	public static SensorReading getLastReading() {
-		return readings.get(readings.size() - 1);
+		return readings.size() != 0 ? readings.get(readings.size() - 1) : null;
 	}
 
 	public static SensorReading getReadingIndex(int index) {
