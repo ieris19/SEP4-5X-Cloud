@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping()
 public class WebController {
-    @GetMapping("/lastReading")
+    @GetMapping("/readings")
     public ResponseEntity<String> getLastReading() {
         return ResponseEntity.ok(WebJSONData.getDataAsJSON());
     }
