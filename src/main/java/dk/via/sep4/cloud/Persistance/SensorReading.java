@@ -1,17 +1,13 @@
 package dk.via.sep4.cloud.Persistance;
 
+import dk.via.sep4.cloud.web.service.WebRepository;
+
 import java.io.File;
 
 public class SensorReading {
-    private static SensorReading lastReading;
     private double temperature;
     private File file;
     private FileLog logger;
-
-
-    public static SensorReading getLastReading() {
-        return SensorReading.lastReading;
-    }
 
     public SensorReading(Double temperature)
     {
@@ -19,7 +15,7 @@ public class SensorReading {
         this.file=new File("src/main/java/dk/via/sep4/cloud/Persistance/Logs.txt");
         this.logger=FileLog.getInstance(file);
         logReadings();
-        SensorReading.lastReading=this;
+        WebRepository.addReading(this);
     }
     private void logReadings()
     {
