@@ -1,6 +1,6 @@
 package dk.via.sep4.cloud.web.service;
 
-import dk.via.sep4.cloud.Persistance.SensorReading;
+import dk.via.sep4.cloud.persistance.SensorReading;
 
 public class WebJSONData {
 	public static String getDataAsJSON() {

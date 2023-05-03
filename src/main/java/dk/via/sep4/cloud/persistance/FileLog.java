@@ -1,4 +1,4 @@
-package dk.via.sep4.cloud.Persistance;
+package dk.via.sep4.cloud.persistance;
 
 import java.io.File;
 import java.io.FileWriter;

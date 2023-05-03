@@ -1,21 +1,10 @@
-package dk.via.sep4.cloud.Lorawan;
+package dk.via.sep4.cloud.lorawan;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import dk.via.sep4.cloud.Persistance.SensorReading;
 import org.eclipse.paho.client.mqttv3.MqttClient;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
-import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-import org.thethingsnetwork.data.common.Connection;
-import org.thethingsnetwork.data.common.messages.DataMessage;
-import org.thethingsnetwork.data.mqtt.Client;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
-import java.io.IOException;
-import java.io.InputStream;
 import java.security.KeyStore;
 
 public class C {

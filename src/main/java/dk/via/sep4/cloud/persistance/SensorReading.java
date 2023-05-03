@@ -1,4 +1,4 @@
-package dk.via.sep4.cloud.Persistance;
+package dk.via.sep4.cloud.persistance;
 
 import dk.via.sep4.cloud.web.service.WebRepository;
 

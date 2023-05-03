@@ -1,4 +1,4 @@
-package dk.via.sep4.cloud.Persistance;
+package dk.via.sep4.cloud.persistance;
 
 public class Test {
     public static void main(String[] args) {

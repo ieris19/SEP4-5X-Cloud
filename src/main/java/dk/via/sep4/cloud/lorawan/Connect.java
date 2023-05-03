@@ -1,12 +1,9 @@
-package dk.via.sep4.cloud.Lorawan;
+package dk.via.sep4.cloud.lorawan;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dk.via.sep4.cloud.Persistance.SensorReading;
+import dk.via.sep4.cloud.persistance.SensorReading;
 import org.eclipse.paho.client.mqttv3.*;
-import org.thethingsnetwork.data.mqtt.Client;
-import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-import org.thethingsnetwork.data.common.messages.*;
 
 public class Connect {
 

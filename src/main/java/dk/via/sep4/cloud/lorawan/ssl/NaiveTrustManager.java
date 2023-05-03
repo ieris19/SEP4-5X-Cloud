@@ -1,4 +1,4 @@
-package dk.via.sep4.cloud.Lorawan.SSL;
+package dk.via.sep4.cloud.lorawan.ssl;
 
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate ;
