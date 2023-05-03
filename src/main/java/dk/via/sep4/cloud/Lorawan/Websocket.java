@@ -79,14 +79,14 @@ public class Websocket implements WebSocket.Listener {
         if(commandValue.equals("rx")){
             byte[] dataBytes = dataValue.getBytes();
             //substrings of the payload data string
-            String temperatureValueString = dataValue.substring(2,5);
+            String temperatureValueString = dataValue.substring(2,6);
 
 //            String humidityValueString = dataValue.substring(6,7);
 //            String co2ValueString = dataValue.substring(8,11);
 //            String soundValueString = dataValue.substring(12,15);
 //            String lightValueString = dataValue.substring(16,19);
             //to int from string
-            int temperatureInt = Integer.parseInt(temperatureValueString,16);
+            short temperatureInt = (short) Integer.parseInt(temperatureValueString,16);
 
 //            int humidityInt = Integer.parseInt(humidityValueString,16);
 //            int co2Int = Integer.parseInt(co2ValueString,16);
