@@ -78,40 +78,41 @@ public class Websocket implements WebSocket.Listener {
 
         if(commandValue.equals("rx")){
             byte[] dataBytes = dataValue.getBytes();
+
             //substrings of the payload data string
             String temperatureValueString = dataValue.substring(2,5);
+            String humidityValueString = dataValue.substring(6,7);
+            String co2ValueString = dataValue.substring(8,11);
+            String soundValueString = dataValue.substring(12,15);
+            String lightValueString = dataValue.substring(16,19);
 
-//            String humidityValueString = dataValue.substring(6,7);
-//            String co2ValueString = dataValue.substring(8,11);
-//            String soundValueString = dataValue.substring(12,15);
-//            String lightValueString = dataValue.substring(16,19);
             //to int from string
             int temperatureInt = Integer.parseInt(temperatureValueString,16);
+            int humidityInt = Integer.parseInt(humidityValueString,16);
+            int co2Int = Integer.parseInt(co2ValueString,16);
+            int soundInt = Integer.parseInt(soundValueString,16);
+            int lightInt = Integer.parseInt(lightValueString,16);
 
-//            int humidityInt = Integer.parseInt(humidityValueString,16);
-//            int co2Int = Integer.parseInt(co2ValueString,16);
-//            int soundInt = Integer.parseInt(soundValueString,16);
-//            int lightInt = Integer.parseInt(lightValueString,16);
             //to double from int
             double temperatureDouble = ((double) temperatureInt )/10;
+            double humidityDouble = ((double) humidityInt )/10;
+            double co2Double = ((double) co2Int )/10;
+            double soundDouble = ((double) soundInt )/10;
+            double lightDouble = ((double) lightInt )/10;
 
-//            double humidityDouble = ((double) humidityInt )/10;
-//            double co2Double = ((double) co2Int )/10;
-//            double soundDouble = ((double) soundInt )/10;
-//            double lightDouble = ((double) lightInt )/10;
             //print double values
             System.out.println("Temperature Double: " + temperatureDouble);
+            System.out.println("Humidity Double: " + humidityDouble);
+            System.out.println("CO2 Double: " + co2Double);
+            System.out.println("Sound Double: " + soundDouble);
+            System.out.println("Light Double: " + lightDouble);
 
-//            System.out.println("Humidity Double: " + humidityDouble);
-//            System.out.println("CO2 Double: " + co2Double);
-//            System.out.println("Sound Double: " + soundDouble);
-//            System.out.println("Light Double: " + lightDouble);
             //log readings
             SensorReading sensorReadingTemperature = new SensorReading(temperatureDouble);
 
         }else{
-            //System.out.println("Command value: " + commandValue);
-            //System.out.println("Intended: " + indented);
+            System.out.println("Command value: " + commandValue);
+            System.out.println("Intended: " + indented);
         }
 
 
