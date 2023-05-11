@@ -1,4 +1,6 @@
-package dk.via.sep4.cloud.Persistance;
+package dk.via.sep4.cloud.persistance;
+
+import dk.via.sep4.cloud.web.service.WebRepository;
 
 import java.io.File;
 
@@ -13,6 +15,7 @@ public class SensorReading {
         this.file=new File("src/main/java/dk/via/sep4/cloud/Persistance/Logs.txt");
         this.logger=FileLog.getInstance(file);
         logReadings();
+        WebRepository.addReading(this);
     }
     private void logReadings()
     {
