@@ -1,5 +1,6 @@
 package dk.via.sep4.cloud.lorawan;
 
+import dk.via.sep4.cloud.lorawan.Websocket;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 
 import javax.net.ssl.SSLContext;
@@ -15,7 +16,10 @@ public class C {
         String joinEUI = "49B360EEE16A8D4C";
         String EUI_dev = "0004A30B0021B92F";
 
+        String uri = "";
+        System.out.println(uri.isEmpty());
 
+        System.out.println(url);
 
         // Set up SSL context with the default truststore
         SSLContext sslContext = SSLContext.getInstance("TLS");
