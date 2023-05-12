@@ -10,7 +10,7 @@ import java.util.Map;
 public class FileLog
 {
   private static final Map<File, FileLog> instances=new HashMap<File, FileLog>();
-  private final CurrentTime currentTime;
+  private final dk.via.sep4.cloud.persistance.CurrentTime currentTime;
   private final File logDirectory;
   private File logFile;
 
@@ -18,7 +18,7 @@ public class FileLog
     String homePath = System.getProperty("user.home");
     // Default download dir on Windows. (~/Downloads on other systems).
     logDirectory = new File(homePath, "Downloads");
-    currentTime=CurrentTime.getInstance();
+    currentTime= dk.via.sep4.cloud.persistance.CurrentTime.getInstance();
     this.logFile=logFile;
   }
   public static synchronized FileLog getInstance(File logFile)
