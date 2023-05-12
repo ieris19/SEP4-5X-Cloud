@@ -20,7 +20,6 @@ public class SensorReading {
 	private Timestamp timeReceived;
 
 	public SensorReading() {
-
 	}
 
 	public SensorReading(boolean open, boolean pir, double temperature, int humidity, int co2, int sound, int light, int code, Timestamp timeReceived) {
@@ -33,6 +32,46 @@ public class SensorReading {
 		this.light = light;
 		this.code = code;
 		this.timeReceived = timeReceived;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public boolean isOpen() {
+		return open;
+	}
+
+	public boolean isPir() {
+		return pir;
+	}
+
+	public double getTemperature() {
+		return temperature;
+	}
+
+	public int getHumidity() {
+		return humidity;
+	}
+
+	public int getCo2() {
+		return co2;
+	}
+
+	public int getSound() {
+		return sound;
+	}
+
+	public int getLight() {
+		return light;
+	}
+
+	public int getCode() {
+		return code;
+	}
+
+	public Timestamp getTimeReceived() {
+		return timeReceived;
 	}
 
 	@Override public String toString() {
