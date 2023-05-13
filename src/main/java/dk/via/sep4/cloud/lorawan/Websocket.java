@@ -1,9 +1,9 @@
 
 package dk.via.sep4.cloud.lorawan;
 
-import dk.via.sep4.cloud.persistance.SensorReading;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
+import dk.via.sep4.cloud.data.SensorReading;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
@@ -13,6 +13,7 @@ import java.net.http.HttpClient;
 import java.net.http.WebSocket;
 import java.nio.ByteBuffer;
 
+import java.sql.Timestamp;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
 
@@ -117,8 +118,11 @@ public class Websocket implements WebSocket.Listener {
             System.out.println("Sound Double: " + soundDouble);
             System.out.println("Light Double: " + lightDouble);
 
-            //log readings
-            SensorReading sensorReadingTemperature = new SensorReading(temperatureDouble);
+            // TODO: Actually receive all values from the device and store them in the database
+            boolean pirTriggered = false;
+            int errorCode = 0;
+            Timestamp timeReceived = Timestamp.from(java.time.Instant.now());
+            SensorReading sensorReading = new SensorReading(pirTriggered, temperatureDouble, humidityInt, co2Int, soundInt, lightInt, errorCode, timeReceived);
 
         }else{
 
