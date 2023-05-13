@@ -9,7 +9,6 @@ import java.sql.Timestamp;
 public class SensorReading {
 	@Id
 	private String id;
-	private boolean open;
 	private boolean pir;
 	private double temperature;
 	private int humidity;
@@ -22,8 +21,7 @@ public class SensorReading {
 	public SensorReading() {
 	}
 
-	public SensorReading(boolean open, boolean pir, double temperature, int humidity, int co2, int sound, int light, int code, Timestamp timeReceived) {
-		this.open = open;
+	public SensorReading(boolean pir, double temperature, int humidity, int co2, int sound, int light, int code, Timestamp timeReceived) {
 		this.pir = pir;
 		this.temperature = temperature;
 		this.humidity = humidity;
@@ -36,10 +34,6 @@ public class SensorReading {
 
 	public String getId() {
 		return id;
-	}
-
-	public boolean isOpen() {
-		return open;
 	}
 
 	public boolean isPir() {
@@ -75,6 +69,6 @@ public class SensorReading {
 	}
 
 	@Override public String toString() {
-		return String.format("Reading[open=%s, pir=%s, temperature=%s, humidity=%s, co2=%s, sound=%s, light=%s, code=%s, timeReceived=%s]", open, pir, temperature, humidity, co2, sound, light, code, timeReceived);
+		return String.format("Reading[pir=%s, temperature=%s, humidity=%s, co2=%s, sound=%s, light=%s, code=%s, timeReceived=%s]", pir, temperature, humidity, co2, sound, light, code, timeReceived);
 	}
 }
