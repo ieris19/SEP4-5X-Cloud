@@ -11,7 +11,6 @@
     <description>cloud</description>
 
     <properties>
-        <sep4.source.repoURL>https://github.com/Ieris19/IerisLib/tree/prime</sep4.source.repoURL>
         <sep4.java.version>17</sep4.java.version>
         <sep4.encoding>UTF-8</sep4.encoding>
         <maven.compiler.source>${sep4.java.version}</maven.compiler.source>
@@ -20,9 +19,9 @@
         <project.reporting.outputEncoding>${sep4.encoding}</project.reporting.outputEncoding>
 
         <sep4.dependencyVersion.spring>3.0.6</sep4.dependencyVersion.spring>
-        <sep4.dependencyVersion.lombok>1.18.26</sep4.dependencyVersion.lombok>
     </properties>
     <dependencies>
+        <!-- Spring Dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
@@ -33,19 +32,27 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <version>${sep4.dependencyVersion.spring}</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${sep4.dependencyVersion.lombok}</version>
-            <optional>true</optional>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <version>${sep4.dependencyVersion.spring}</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- General Dependencies -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.26</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.ieris19.lib.files</groupId>
+            <artifactId>config</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <!-- Lorawan Connection Dependencies -->
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
@@ -56,16 +63,23 @@
             <artifactId>json</artifactId>
             <version>20230227</version>
         </dependency>
-
         <dependency>
             <groupId>org.eclipse.paho</groupId>
             <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
             <version>1.2.5</version>
         </dependency>
+        <!-- Database Dependencies -->
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver-sync</artifactId>
             <version>4.9.1</version>
         </dependency>
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>ierislib</id>
+            <url>https://maven.pkg.github.com/ieris19/ierislib</url>
+        </repository>
+    </repositories>
 </project>
