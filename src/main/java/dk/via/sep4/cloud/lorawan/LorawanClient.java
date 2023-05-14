@@ -17,7 +17,7 @@ import java.security.NoSuchAlgorithmException;
 public class LorawanClient implements CommandLineRunner {
 	public void run(String[] args) {
 		sslContextSetup();
-		WebsocketListener websocket = new WebsocketListener(retrieveSecretURL());
+		LorawanSocketListener websocket = new LorawanSocketListener(retrieveSecretURL());
 	}
 
 	private void sslContextSetup() {
