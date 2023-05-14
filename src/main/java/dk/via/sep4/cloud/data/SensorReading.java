@@ -31,43 +31,6 @@ public class SensorReading {
 		this.code = code;
 		this.timeReceived = timeReceived;
 	}
-
-	public String getId() {
-		return id;
-	}
-
-	public boolean isPir() {
-		return pir;
-	}
-
-	public double getTemperature() {
-		return temperature;
-	}
-
-	public int getHumidity() {
-		return humidity;
-	}
-
-	public int getCo2() {
-		return co2;
-	}
-
-	public int getSound() {
-		return sound;
-	}
-
-	public int getLight() {
-		return light;
-	}
-
-	public int getCode() {
-		return code;
-	}
-
-	public Timestamp getTimeReceived() {
-		return timeReceived;
-	}
-
 	@Override public String toString() {
 		return String.format("Reading[pir=%s, temperature=%s, humidity=%s, co2=%s, sound=%s, light=%s, code=%s, timeReceived=%s]", pir, temperature, humidity, co2, sound, light, code, timeReceived);
 	}
