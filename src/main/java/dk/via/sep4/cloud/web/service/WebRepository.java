@@ -1,6 +1,6 @@
 package dk.via.sep4.cloud.web.service;
 
-import dk.via.sep4.cloud.persistance.SensorReading;
+import dk.via.sep4.cloud.data.SensorReading;
 
 import java.util.ArrayList;
 
