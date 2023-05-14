@@ -16,17 +16,12 @@ import java.time.ZoneId;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
-//TODO: Improve the order and structure of the methods in this class
-/*
-	EG. Move hexByteToBinaryString(String) method to a utility class
-	Much of this class could benefit from SOLID principles
- */
-public class WebsocketListener implements WebSocket.Listener {
+public class LorawanSocketListener implements WebSocket.Listener {
 	private final WebSocket server;
-	private final Logger logger = LoggerFactory.getLogger(WebsocketListener.class);
+	private final Logger logger = LoggerFactory.getLogger(LorawanSocketListener.class);
 	private static final DBrepository sensorRepository = new DBrepository();
 
-	public WebsocketListener(String url) {
+	public LorawanSocketListener(String url) {
 		HttpClient client = HttpClient.newHttpClient();
 		CompletableFuture<WebSocket> ws = client.newWebSocketBuilder().buildAsync(URI.create(url), this);
 
@@ -55,24 +50,6 @@ public class WebsocketListener implements WebSocket.Listener {
 		logger.error("Websocket Aborted!");
 	}
 
-	public CompletionStage<?> onPing(WebSocket webSocket, ByteBuffer message) {
-		webSocket.request(1);
-
-		logger.debug("Ping: Client ---> Server");
-		logger.debug(message.asCharBuffer().toString());
-		return CompletableFuture.completedFuture("Ping completed.").thenAccept(logger::trace);
-	}
-
-	//onPong()
-	public CompletionStage<?> onPong(WebSocket webSocket, ByteBuffer message) {
-		webSocket.request(1);
-
-		logger.debug("Pong: Client ---> Server");
-		logger.debug(message.asCharBuffer().toString());
-		return CompletableFuture.completedFuture("Pong completed.").thenAccept(logger::trace);
-	}
-
-	//onText()
 	public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last) {
 		logger.trace("OnText entered");
 
@@ -132,12 +109,12 @@ public class WebsocketListener implements WebSocket.Listener {
 																										timestamp);
 		sensorRepository.insertReading(sensorReading);
 	}
+	public CompletionStage<?> onPing(WebSocket webSocket, ByteBuffer message) {
+		webSocket.request(1);
 
-	private void unknownCommandReceived(JSONObject dataJson) {
-		String command = dataJson.getString("cmd");
-		logger.error("Unknown Lorawan command received");
-		logger.debug("Command value: " + command);
-		logger.debug("Contents: " + dataJson.toString(4));
+		logger.debug("Ping: Client ---> Server");
+		logger.debug(message.asCharBuffer().toString());
+		return CompletableFuture.completedFuture("Ping completed.").thenAccept(logger::trace);
 	}
 
 	private static String hexByteToBinaryString(String hexByte) {
@@ -145,11 +122,24 @@ public class WebsocketListener implements WebSocket.Listener {
 			throw new IllegalArgumentException("Hex string must be exactly 2 characters long");
 		}
 		return String.format("%8s", Integer.toBinaryString(Integer.parseInt(hexByte, 16))).replace(' ', '0');
+	public CompletionStage<?> onPong(WebSocket webSocket, ByteBuffer message) {
+		webSocket.request(1);
+
+		logger.debug("Pong: Client ---> Server");
+		logger.debug(message.asCharBuffer().toString());
+		return CompletableFuture.completedFuture("Pong completed.").thenAccept(logger::trace);
 	}
 
 	// Send down-link message to device
 	// Must be in Json format, according to https://github.com/ihavn/IoT_Semester_project/blob/master/LORA_NETWORK_SERVER.md
 	public void sendDownLink(String jsonTelegram) {
 		server.sendText(jsonTelegram, true);
+	}
+
+	private void unknownCommandReceived(JSONObject dataJson) {
+		String command = dataJson.getString("cmd");
+		logger.error("Unknown Lorawan command received");
+		logger.debug("Command value: " + command);
+		logger.debug("Contents: " + dataJson.toString(4));
 	}
 }
