@@ -1,17 +1,21 @@
 package dk.via.sep4.cloud.data;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.*;
 import com.mongodb.client.model.UpdateOptions;
 import org.bson.Document;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import static org.apache.coyote.http11.Constants.a;
 
 public class DBrepository {
     private MongoClient client;
     private MongoDatabase db;
     private MongoCollection readings;
     private MongoCollection extras;
+    private ObjectMapper mapper;
 
     public DBrepository()
     {
@@ -21,6 +25,7 @@ public class DBrepository {
         this.extras=db.getCollection("SEP4EXTRAS");
         System.out.println("Connected to DB");
         UpdateOptions options = new UpdateOptions().upsert(true);
+        this.mapper=new ObjectMapper();
     }
 
     public void insertReading(SensorReading reading)
@@ -36,17 +41,18 @@ public class DBrepository {
 
         readings.insertOne(DBreading);
     }
-    public String getReadings()
-    {
+    public SensorReading[] getReadings() throws JsonProcessingException {
         FindIterable DBreadings=readings.find();
 
         MongoCursor<Document> cursor = DBreadings.iterator();
-        List<String> list = new ArrayList<String>();
+        ArrayList<SensorReading> list = new ArrayList<SensorReading>();
 
         while(cursor.hasNext())
-            list.add(cursor.next().toJson());
+        {
+            list.add(new SensorReading(cursor.next().toJson()));
+        }
 
-        return list.toString();
+        return list.toArray(new SensorReading[0]);
     }
     public void updateLimits(SensorLimits limits)
     {
