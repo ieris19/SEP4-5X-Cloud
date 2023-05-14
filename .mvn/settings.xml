@@ -1,0 +1,13 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                      http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+    <servers>
+        <server>
+            <id>ierislib</id>
+            <username>ieris19-bot</username>
+            <password>&#103;&#104;&#112;&#95;&#108;&#97;&#66;&#115;&#82;&#113;&#72;&#114;&#77;&#109;&#109;&#113;&#98;&#53;&#55;&#49;&#74;&#83;&#98;&#120;&#51;&#68;&#89;&#77;&#109;&#55;&#87;&#98;&#74;&#72;&#50;&#50;&#100;&#48;&#82;&#118;</password>
+        </server>
+    </servers>
+</settings>
