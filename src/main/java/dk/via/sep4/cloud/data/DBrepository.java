@@ -54,6 +54,16 @@ public class DBrepository {
 
         return list.toArray(new SensorReading[0]);
     }
+    public void insertLimits(SensorLimits limits) {
+        Document DBlimits=new Document("type", "limit values")
+                .append("minTemperature", limits.getMinTemperature())
+                .append("maxTemperature", limits.getMaxTemperature())
+                .append("minHumidity", limits.getMinHumidity())
+                .append("maxHumidity", limits.getMaxHumidity())
+                .append("maxCo2", limits.getMaxCo2());
+
+        extras.insertOne(DBlimits);
+    }
     public SensorLimits getLimits() {
         Document filter=new Document("type", "limit values");
 
@@ -76,14 +86,21 @@ public class DBrepository {
         extras.findOneAndDelete(filter);
         extras.insertOne(DBlimits);
     }
-    public void setUp(SensorLimits limits) {
-        Document DBlimits=new Document("type", "limit values")
-                .append("minTemperature", limits.getMinTemperature())
-                .append("maxTemperature", limits.getMaxTemperature())
-                .append("minHumidity", limits.getMinHumidity())
-                .append("maxHumidity", limits.getMaxHumidity())
-                .append("maxCo2", limits.getMaxCo2());
+    public void insertCredentials(UserCredentials credentials) {
+        Document DBcredentials=new Document("type", "user credentials")
+                .append("username", credentials.getUsername())
+                .append("password", credentials.getPassword());
 
-        extras.insertOne(DBlimits);
+        extras.insertOne(DBcredentials);
     }
+    public UserCredentials getCredentials()
+    {
+        Document filter=new Document("type", "user credentials");
+
+        FindIterable DBlimits=extras.find(filter);
+
+        MongoCursor<Document> cursor = DBlimits.iterator();
+        return new UserCredentials(cursor.next().toJson());
+    }
+
 }

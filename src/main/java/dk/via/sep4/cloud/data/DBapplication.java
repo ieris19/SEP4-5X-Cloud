@@ -20,13 +20,20 @@ public class DBapplication {
 //        }
 //
 //        //Inserting limits example
-//        database.setUp(new SensorLimits(10, 35, 20, 80, 1000));
+//        database.insertLimits(new SensorLimits(10, 35, 20, 80, 1000));
 //
 //        //Retrieving limits example
 //        System.out.println(database.getLimits().toString());
 
-        //Updating limits example
-        database.updateLimits(new SensorLimits(10, 35, 20, 80, 3000));
-        System.out.println(database.getLimits());
+//        //Updating limits example
+//        database.updateLimits(new SensorLimits(10, 35, 20, 80, 3000));
+//        System.out.println(database.getLimits());
+
+        //Inserting credentials example
+        database.insertCredentials(new UserCredentials("Ryzhas_Momentas", "fotografuje_slimaka"));
+
+        //Retrieving credentials example
+        System.out.println(database.getCredentials().toString());
+
     }
 }
