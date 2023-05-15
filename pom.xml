@@ -20,6 +20,7 @@
 
         <sep4.dependencyVersion.spring>3.0.6</sep4.dependencyVersion.spring>
     </properties>
+
     <dependencies>
         <!-- Spring Dependencies -->
         <dependency>
@@ -80,6 +81,16 @@
             <version>4.9.1</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>appengine-maven-plugin</artifactId>
+                <version>2.4.4</version>
+            </plugin>
+        </plugins>
+    </build>
 
     <repositories>
         <repository>
