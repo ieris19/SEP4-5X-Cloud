@@ -27,11 +27,11 @@ public class WebJSONData {
 	}
 	public static String getLimitsAsJSON(SensorLimits limits) {
 		JSONObject object=new JSONObject();
-		object.put("temperature", limits.getTemperature());
-		object.put("humidity", limits.getHumidity());
-		object.put("co2", limits.getCo2());
-		object.put("sound", limits.getSound());
-		object.put("light", limits.getLight());
+		object.put("minTemperature", limits.getMinTemperature());
+		object.put("maxTemperature", limits.getMaxTemperature());
+		object.put("minHumidity", limits.getMinHumidity());
+		object.put("maxHumidity", limits.getMaxHumidity());
+		object.put("maxCo2", limits.getMaxCo2());
 
 		return object.toString();
 	}

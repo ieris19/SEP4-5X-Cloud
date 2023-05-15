@@ -67,22 +67,22 @@ public class DBrepository {
         Document filter=new Document("type", "limit values");
 
         Document DBlimits=new Document("type", "limit values")
-                .append("temperature", limits.getTemperature())
-                .append("humidity", limits.getHumidity())
-                .append("co2", limits.getCo2())
-                .append("sound", limits.getSound())
-                .append("light", limits.getLight());
+                .append("minTemperature", limits.getMinTemperature())
+                .append("maxTemperature", limits.getMaxTemperature())
+                .append("minHumidity", limits.getMinHumidity())
+                .append("maxHumidity", limits.getMaxHumidity())
+                .append("maxCo2", limits.getMaxCo2());
 
         extras.findOneAndDelete(filter);
         extras.insertOne(DBlimits);
     }
     public void setUp(SensorLimits limits) {
         Document DBlimits=new Document("type", "limit values")
-                .append("temperature", limits.getTemperature())
-                .append("humidity", limits.getHumidity())
-                .append("co2", limits.getCo2())
-                .append("sound", limits.getSound())
-                .append("light", limits.getLight());
+                .append("minTemperature", limits.getMinTemperature())
+                .append("maxTemperature", limits.getMaxTemperature())
+                .append("minHumidity", limits.getMinHumidity())
+                .append("maxHumidity", limits.getMaxHumidity())
+                .append("maxCo2", limits.getMaxCo2());
 
         extras.insertOne(DBlimits);
     }
