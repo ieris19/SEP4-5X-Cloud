@@ -35,4 +35,4 @@ jobs:
       - id: 'deploy'
         uses: 'google-github-actions/deploy-appengine@v1'
         with:
-          - project_id: ${{ secrets.GC_PROJECT_ID }}
+          project_id: ${{ secrets.GC_PROJECT_ID }}
