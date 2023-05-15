@@ -2,6 +2,7 @@ package dk.via.sep4.cloud.web.service;
 
 import dk.via.sep4.cloud.data.SensorLimits;
 import dk.via.sep4.cloud.data.SensorReading;
+import dk.via.sep4.cloud.data.UserCredentials;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -32,6 +33,14 @@ public class WebJSONData {
 		object.put("minHumidity", limits.getMinHumidity());
 		object.put("maxHumidity", limits.getMaxHumidity());
 		object.put("maxCo2", limits.getMaxCo2());
+
+		return object.toString();
+	}
+
+	public static String getCredentialsAsJSON(UserCredentials credentials) {
+		JSONObject object=new JSONObject();
+		object.put("username", credentials.getUsername());
+		object.put("password", credentials.getPassword());
 
 		return object.toString();
 	}
