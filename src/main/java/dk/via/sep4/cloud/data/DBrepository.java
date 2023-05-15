@@ -54,12 +54,19 @@ public class DBrepository {
 
         return list.toArray(new SensorReading[0]);
     }
+    public SensorLimits getLimits() {
+        Document filter=new Document("type", "limit values");
+
+        FindIterable DBlimits=extras.find(filter);
+
+        MongoCursor<Document> cursor = DBlimits.iterator();
+        return new SensorLimits(cursor.next().toJson());
+    }
     public void updateLimits(SensorLimits limits)
     {
-        Document filter=new Document("_id", 1);
+        Document filter=new Document("type", "limit values");
 
-        Document DBlimits=new Document("_id", 1)
-                .append("type", "limit values")
+        Document DBlimits=new Document("type", "limit values")
                 .append("temperature", limits.getTemperature())
                 .append("humidity", limits.getHumidity())
                 .append("co2", limits.getCo2())
@@ -70,8 +77,7 @@ public class DBrepository {
         extras.insertOne(DBlimits);
     }
     public void setUp(SensorLimits limits) {
-        Document DBlimits=new Document("_id", 1)
-                .append("type", "limit values")
+        Document DBlimits=new Document("type", "limit values")
                 .append("temperature", limits.getTemperature())
                 .append("humidity", limits.getHumidity())
                 .append("co2", limits.getCo2())

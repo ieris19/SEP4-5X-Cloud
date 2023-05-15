@@ -38,7 +38,7 @@ public class SensorReading {
 	}
 
 	public SensorReading(String jsonString) {
-		JSONObject dataJson = new JSONObject(jsonString.toString());
+		JSONObject dataJson = new JSONObject(jsonString);
 		JSONObject idJson = dataJson.getJSONObject("_id");
 		this.id=idJson.getString("$oid");
 		this.pir=dataJson.getBoolean("pir");

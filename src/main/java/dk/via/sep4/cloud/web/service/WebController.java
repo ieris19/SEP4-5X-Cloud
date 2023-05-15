@@ -1,5 +1,7 @@
 package dk.via.sep4.cloud.web.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import dk.via.sep4.cloud.data.DBrepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,13 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping()
 public class WebController {
+    private DBrepository repository=new DBrepository();
     @GetMapping("/readings")
-    public ResponseEntity<String> getLastReading() {
-        return ResponseEntity.ok(WebJSONData.getDataAsJSON());
+    public ResponseEntity<String> getReadings() throws JsonProcessingException {
+        return ResponseEntity.ok(WebJSONData.getReadingsAsJSON(repository.getReadings()));
     }
 
-    @GetMapping("/readings/last")
-    public ResponseEntity<String> getReadings() {
-        return ResponseEntity.ok(WebJSONData.tempToJSON(0, WebRepository.getLastReading()));
+    @GetMapping("/limits")
+    public ResponseEntity<String> getLimits() {
+        return ResponseEntity.ok(WebJSONData.getLimitsAsJSON(repository.getLimits()));
     }
 }
