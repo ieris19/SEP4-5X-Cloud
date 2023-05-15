@@ -1,7 +1,7 @@
 package dk.via.sep4.cloud.web.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import dk.via.sep4.cloud.data.DBrepository;
+import dk.via.sep4.cloud.data.MongoRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping()
 public class WebController {
-    private DBrepository repository=new DBrepository();
+    private MongoRepository repository=new MongoRepository();
     @GetMapping("/readings")
     public ResponseEntity<String> getReadings() throws JsonProcessingException {
         return ResponseEntity.ok(WebJSONData.getReadingsAsJSON(repository.getReadings()));
