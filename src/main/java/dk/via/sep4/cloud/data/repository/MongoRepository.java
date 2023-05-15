@@ -1,7 +1,10 @@
-package dk.via.sep4.cloud.data;
+package dk.via.sep4.cloud.data.repository;
 
 import com.ieris19.lib.files.config.FileProperties;
 import com.mongodb.client.*;
+import dk.via.sep4.cloud.data.SensorLimits;
+import dk.via.sep4.cloud.data.SensorReading;
+import dk.via.sep4.cloud.data.UserCredentials;
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +40,7 @@ public class MongoRepository {
     }
 
     public void insertReading(SensorReading reading) {
-        Document DBreading = new Document("pir", reading.isPir())
+        Document readingDocument = new Document("pir", reading.isPir())
                 .append("temperature", reading.getTemperature())
                 .append("humidity", reading.getHumidity())
                 .append("co2", reading.getCo2())
@@ -46,7 +49,7 @@ public class MongoRepository {
                 .append("code", reading.getCode())
                 .append("time", reading.getTimeReceived());
 
-        readings.insertOne(DBreading);
+        readings.insertOne(readingDocument);
     }
 
     public SensorReading[] getReadings() {

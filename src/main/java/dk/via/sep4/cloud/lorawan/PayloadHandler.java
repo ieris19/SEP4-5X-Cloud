@@ -2,7 +2,7 @@ package dk.via.sep4.cloud.lorawan;
 
 import com.ieris19.lib.files.config.FileProperties;
 import dk.via.sep4.cloud.data.SensorLimits;
-import dk.via.sep4.cloud.data.MongoRepository;
+import dk.via.sep4.cloud.data.repository.MongoRepository;
 import dk.via.sep4.cloud.data.SensorReading;
 import org.json.JSONObject;
 import org.slf4j.Logger;
