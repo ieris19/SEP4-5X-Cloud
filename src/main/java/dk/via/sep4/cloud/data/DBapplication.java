@@ -6,10 +6,10 @@ import java.time.LocalDateTime;
 public class DBapplication {
     public static void main(String[] args) {
         //DB repo initialization
-        DBrepository database=new DBrepository();
+        MongoRepository database=new MongoRepository();
 
         //Inserting reading example
-//        database.insertReading(new SensorReading(true, 41, 80, 369, 42, 150, 527, Timestamp.valueOf(LocalDateTime.of(2023, 5, 15, 13, 22, 23))));
+//        database.insertReading(new SensorReading(true, 41, 80, 369, 42, 150, 527, Timestamp.valueOgf(LocalDateTime.of(2023, 5, 15, 13, 22, 23))));
 //
 //        //Retrieving readings example
 //        SensorReading[] list= database.getReadings();

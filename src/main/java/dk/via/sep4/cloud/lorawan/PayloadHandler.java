@@ -1,8 +1,8 @@
 package dk.via.sep4.cloud.lorawan;
 
 import com.ieris19.lib.files.config.FileProperties;
-import dk.via.sep4.cloud.data.DBrepository;
 import dk.via.sep4.cloud.data.SensorLimits;
+import dk.via.sep4.cloud.data.MongoRepository;
 import dk.via.sep4.cloud.data.SensorReading;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -14,7 +14,7 @@ import java.time.ZoneId;
 
 public class PayloadHandler {
 	private static final Logger logger = LoggerFactory.getLogger(PayloadHandler.class);
-	private static final DBrepository sensorRepository = new DBrepository();
+	private static final MongoRepository sensorRepository = new MongoRepository();
 
 	static void parsePayload(JSONObject dataJson) {
 		String payloadHex = dataJson.getString("data");
