@@ -6,7 +6,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  custom-deploy:
+  deploy:
+    name: Deploy the application to App Engine
     permissions:
       contents: 'read'
       id-token: 'write'
