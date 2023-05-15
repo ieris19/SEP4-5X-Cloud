@@ -1,6 +1,8 @@
 package dk.via.sep4.cloud.lorawan;
 
+import com.ieris19.lib.files.config.FileProperties;
 import dk.via.sep4.cloud.data.DBrepository;
+import dk.via.sep4.cloud.data.SensorLimits;
 import dk.via.sep4.cloud.data.SensorReading;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -64,5 +66,28 @@ public class PayloadHandler {
 			throw new IllegalArgumentException("Hex string must be exactly 2 characters long");
 		}
 		return String.format("%8s", Integer.toBinaryString(Integer.parseInt(hexByte, 16))).replace(' ', '0');
+	}
+
+	public static JSONObject createPayload(JSONObject dataJson)
+	{
+		SensorLimits limits=sensorRepository.getLimits();
+		String flags="00";
+		String maxTemperature=String.format("%04X", limits.getMaxTemperature());
+		String minTemperature=String.format("%04X", limits.getMinTemperature());
+		String maxHumidity=String.format("%04X", limits.getMaxHumidity());
+		String minHumidity=String.format("%04X", limits.getMinHumidity());
+		String maxCo2=String.format("%08X", limits.getMaxCo2());
+
+		String hexString=flags+maxTemperature+minTemperature+maxHumidity+minHumidity+maxCo2;
+
+		int portNumber= dataJson.getInt("port");
+		JSONObject object=new JSONObject();
+		object.put("cmd", "tx");
+		object.put("EUI", FileProperties.getInstance("secrets").getProperty("lorawan.EUI_dev"));
+		object.put("port", portNumber);
+		object.put("confirmed", true);
+		object.put("data", hexString);
+
+		return object;
 	}
 }

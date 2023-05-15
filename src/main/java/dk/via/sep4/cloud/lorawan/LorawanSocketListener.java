@@ -51,7 +51,11 @@ public class LorawanSocketListener implements WebSocket.Listener {
 
 		switch (command) {
 			case "rx" -> PayloadHandler.parsePayload(dataJson);
-			case "gw" -> logger.info("Received gateway status message");
+			case "gw" ->
+			{
+				sendDownLink(PayloadHandler.createPayload(dataJson).toString());
+				logger.info("Received gateway status message");
+			}
 			default -> unknownCommandReceived(dataJson);
 		}
 
