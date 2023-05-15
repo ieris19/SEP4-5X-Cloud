@@ -20,4 +20,9 @@ public class WebController {
     public ResponseEntity<String> getLimits() {
         return ResponseEntity.ok(WebJSONData.getLimitsAsJSON(repository.getLimits()));
     }
+
+    @GetMapping("/credentials")
+    public ResponseEntity<String> getCredentials() {
+        return ResponseEntity.ok(WebJSONData.getCredentialsAsJSON(repository.getCredentials()));
+    }
 }
