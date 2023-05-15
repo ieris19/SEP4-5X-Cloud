@@ -5,8 +5,8 @@ import org.json.JSONObject;
 
 @Data
 public class SensorLimits {
-    private double minTemperature;
-    private double maxTemperature;
+    private int minTemperature;
+    private int maxTemperature;
     private int minHumidity;
     private int maxHumidity;
     private int maxCo2;
@@ -15,7 +15,7 @@ public class SensorLimits {
 
     }
 
-    public SensorLimits(double minTemperature, double maxTemperature, int minHumidity, int maxHumidity, int maxCo2) {
+    public SensorLimits(int minTemperature, int maxTemperature, int minHumidity, int maxHumidity, int maxCo2) {
         this.minTemperature = minTemperature;
         this.maxTemperature = maxTemperature;
         this.minHumidity = minHumidity;
@@ -25,8 +25,8 @@ public class SensorLimits {
 
     public SensorLimits(String jsonString) {
         JSONObject dataJson = new JSONObject(jsonString);
-        this.minTemperature= dataJson.getDouble("minTemperature");
-        this.maxTemperature= dataJson.getDouble("maxTemperature");
+        this.minTemperature= dataJson.getInt("minTemperature");
+        this.maxTemperature= dataJson.getInt("maxTemperature");
         this.minHumidity = dataJson.getInt("minHumidity");
         this.maxHumidity = dataJson.getInt("maxHumidity");
         this.maxCo2 = dataJson.getInt("maxCo2");
