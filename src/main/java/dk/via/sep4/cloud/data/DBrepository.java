@@ -1,7 +1,5 @@
 package dk.via.sep4.cloud.data;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.*;
 import com.mongodb.client.model.UpdateOptions;
 import org.bson.Document;
@@ -15,7 +13,6 @@ public class DBrepository {
     private MongoDatabase db;
     private MongoCollection readings;
     private MongoCollection extras;
-    private ObjectMapper mapper;
 
     public DBrepository()
     {
@@ -25,7 +22,6 @@ public class DBrepository {
         this.extras=db.getCollection("SEP4EXTRAS");
         System.out.println("Connected to DB");
         UpdateOptions options = new UpdateOptions().upsert(true);
-        this.mapper=new ObjectMapper();
     }
 
     public void insertReading(SensorReading reading)
@@ -41,7 +37,7 @@ public class DBrepository {
 
         readings.insertOne(DBreading);
     }
-    public SensorReading[] getReadings() throws JsonProcessingException {
+    public SensorReading[] getReadings() {
         FindIterable DBreadings=readings.find();
 
         MongoCursor<Document> cursor = DBreadings.iterator();

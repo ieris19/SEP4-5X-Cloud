@@ -2,17 +2,13 @@ package dk.via.sep4.cloud.data;
 
 import lombok.Data;
 import org.json.JSONObject;
-import org.springframework.data.annotation.Id;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Data
 public class SensorReading {
-	@Id
 	private String id;
 	private boolean pir;
 	private double temperature;
