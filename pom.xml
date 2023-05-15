@@ -48,7 +48,7 @@
         </dependency>
         <dependency>
             <groupId>com.ieris19.lib.files</groupId>
-            <artifactId>config</artifactId>
+            <artifactId>config-manager</artifactId>
             <version>1.0.0</version>
         </dependency>
         <dependency>
