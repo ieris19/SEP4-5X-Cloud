@@ -3,7 +3,7 @@ name: Build and Deploy to Google Cloud - App Engine
 on:
   push:
     branches: [ "main" ]
-  workflow-dispatch:
+  workflow_dispatch:
 
 jobs:
   custom-deploy:
