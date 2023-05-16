@@ -1,4 +1,4 @@
-package dk.via.sep4.cloud.web.service;
+package dk.via.sep4.cloud.web.data;
 
 import dk.via.sep4.cloud.data.dto.SensorLimits;
 import dk.via.sep4.cloud.data.dto.SensorReading;
