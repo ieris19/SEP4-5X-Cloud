@@ -17,6 +17,7 @@
     <modules>
         <module>data</module>
         <module>lorawan</module>
+        <module>web</module>
     </modules>
 
     <properties>
