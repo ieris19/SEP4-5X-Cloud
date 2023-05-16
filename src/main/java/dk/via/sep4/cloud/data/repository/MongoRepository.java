@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @Repository
-public class MongoRepository {
+public class MongoRepository implements DataRepository {
     private MongoClient client;
     private MongoDatabase db;
     private MongoCollection<Document> readings;
@@ -45,6 +45,7 @@ public class MongoRepository {
        db.drop();
     }
 
+    @Override
     public void insertReading(SensorReading reading) {
         Document readingDocument = new Document("pir", reading.isPir())
                 .append("temperature", reading.getTemperature())
@@ -58,6 +59,7 @@ public class MongoRepository {
         readings.insertOne(readingDocument);
     }
 
+    @Override
     public SensorReading[] getReadings() {
         FindIterable<Document> allReadings = readings.find();
 
@@ -70,6 +72,7 @@ public class MongoRepository {
         return list.toArray(new SensorReading[0]);
     }
 
+    @Override
     public void insertLimits(SensorLimits limits) {
         Document limitsDocument = new Document("type", "limit values")
                 .append("minTemperature", limits.getMinTemperature())
@@ -80,6 +83,7 @@ public class MongoRepository {
         extras.insertOne(limitsDocument);
     }
 
+    @Override
     public SensorLimits getLimits() {
         Document filter = new Document("type", "limit values");
         FindIterable<Document> dbResult = extras.find(filter);
@@ -88,6 +92,7 @@ public class MongoRepository {
         }
     }
 
+    @Override
     public void updateLimits(SensorLimits limits) {
         Document filter = new Document("type", "limit values");
 
@@ -101,6 +106,7 @@ public class MongoRepository {
         extras.insertOne(limitsDocument);
     }
 
+    @Override
     public void insertCredentials(UserCredentials credentials) {
         Document credentialsDocument = new Document("type", "user credentials")
                 .append("username", credentials.getUsername())
@@ -108,6 +114,7 @@ public class MongoRepository {
         extras.insertOne(credentialsDocument);
     }
 
+    @Override
     public UserCredentials getCredentials() {
         Document filter = new Document("type", "user credentials");
 
