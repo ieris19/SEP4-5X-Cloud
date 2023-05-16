@@ -15,6 +15,7 @@
     </description>
 
     <modules>
+        <module>data</module>
     </modules>
 
     <properties>
@@ -64,13 +65,6 @@
             <version>${sep4.dependencyVersion.spring}</version>
             <scope>test</scope>
         </dependency>
-        
-
-        <!-- Database Dependencies -->
-        <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongodb-driver-sync</artifactId>
-            <version>4.9.1</version>
     </dependencies>
 
     <build>
