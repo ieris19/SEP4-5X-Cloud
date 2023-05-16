@@ -15,13 +15,16 @@ import java.util.ArrayList;
 
 @Repository
 public class MongoRepository {
+    private MongoClient client;
+    private MongoDatabase db;
     private MongoCollection<Document> readings;
     private MongoCollection<Document> extras;
     private final Logger logger = LoggerFactory.getLogger(MongoRepository.class);
 
     public MongoRepository() {
         try (FileProperties secrets = FileProperties.getInstance("secrets")) {
-            init(secrets.getProperty("mongodb.url"));
+            String connectionURL = secrets.getProperty("mongodb.url");
+            init(connectionURL, "SEP4");
         } catch (IllegalArgumentException e) {
             throw new IllegalStateException("At least one of the accessed properties in secrets.properties doesn't exist", e);
         } catch (IOException e) {
@@ -30,13 +33,16 @@ public class MongoRepository {
 
     }
 
-    void init(String connectionString) {
-        try (MongoClient client = MongoClients.create(connectionString)) {
-            MongoDatabase db = client.getDatabase("SEP4");
-            this.readings = db.getCollection("READINGS");
-            this.extras = db.getCollection("EXTRAS");
-        }
+    void init(String connectionString, String databaseName) {
+        client = MongoClients.create(connectionString);
+        db = client.getDatabase(databaseName);
+        this.readings = db.getCollection("READINGS");
+        this.extras = db.getCollection("EXTRAS");
         logger.info("Successfully established a connection to MongoDB");
+    }
+
+    void clearEntireDatabase() {
+       db.drop();
     }
 
     public void insertReading(SensorReading reading) {
@@ -91,7 +97,8 @@ public class MongoRepository {
                 .append("minHumidity", limits.getMinHumidity())
                 .append("maxHumidity", limits.getMaxHumidity())
                 .append("maxCo2", limits.getMaxCo2());
-        extras.findOneAndUpdate(filter, limitsDocument);
+        extras.findOneAndDelete(filter);
+        extras.insertOne(limitsDocument);
     }
 
     public void insertCredentials(UserCredentials credentials) {
@@ -109,5 +116,10 @@ public class MongoRepository {
         try (MongoCursor<Document> cursor = credentialsResult.iterator()) {
             return new UserCredentials(cursor.next().toJson());
         }
+    }
+
+    @Override
+    public void close() {
+        logger.info("Closing connection to MongoDB");
     }
 }
