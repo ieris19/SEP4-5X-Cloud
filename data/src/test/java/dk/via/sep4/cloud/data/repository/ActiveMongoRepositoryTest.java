@@ -1,8 +1,8 @@
 package dk.via.sep4.cloud.data.repository;
 
-import dk.via.sep4.cloud.data.SensorLimits;
-import dk.via.sep4.cloud.data.SensorReading;
-import dk.via.sep4.cloud.data.UserCredentials;
+import dk.via.sep4.cloud.data.dto.SensorLimits;
+import dk.via.sep4.cloud.data.dto.SensorReading;
+import dk.via.sep4.cloud.data.dto.UserCredentials;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,7 +43,7 @@ class ActiveMongoRepositoryTest {
 
     private static void setUp() {
         mongoRepository = new MongoRepository();
-        mongoRepository.init("mongodb://localhost:27017", "SEP4TEST");
+        mongoRepository.init("mongodb://localhost:27017", "SEP4");
         mongoRepository.clearEntireDatabase();
     }
 }
