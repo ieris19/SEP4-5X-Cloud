@@ -8,12 +8,10 @@ import dk.via.sep4.cloud.data.UserCredentials;
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-@Repository
 public class MongoRepository implements DataRepository {
     private MongoClient client;
     private MongoDatabase db;

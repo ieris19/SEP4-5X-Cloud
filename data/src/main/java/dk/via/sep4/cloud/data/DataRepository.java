@@ -1,8 +1,8 @@
-package dk.via.sep4.cloud.data.repository;
+package dk.via.sep4.cloud.data;
 
-import dk.via.sep4.cloud.data.SensorLimits;
-import dk.via.sep4.cloud.data.SensorReading;
-import dk.via.sep4.cloud.data.UserCredentials;
+import dk.via.sep4.cloud.data.dto.SensorLimits;
+import dk.via.sep4.cloud.data.dto.SensorReading;
+import dk.via.sep4.cloud.data.dto.UserCredentials;
 
 import java.io.Closeable;
 
