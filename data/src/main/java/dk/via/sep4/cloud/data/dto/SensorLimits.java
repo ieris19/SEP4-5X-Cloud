@@ -1,4 +1,4 @@
-package dk.via.sep4.cloud.data;
+package dk.via.sep4.cloud.data.dto;
 
 import lombok.Data;
 import org.json.JSONObject;

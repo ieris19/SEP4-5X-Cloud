@@ -2,9 +2,10 @@ package dk.via.sep4.cloud.data.repository;
 
 import com.ieris19.lib.files.config.FileProperties;
 import com.mongodb.client.*;
-import dk.via.sep4.cloud.data.SensorLimits;
-import dk.via.sep4.cloud.data.SensorReading;
-import dk.via.sep4.cloud.data.UserCredentials;
+import dk.via.sep4.cloud.data.DataRepository;
+import dk.via.sep4.cloud.data.dto.SensorLimits;
+import dk.via.sep4.cloud.data.dto.SensorReading;
+import dk.via.sep4.cloud.data.dto.UserCredentials;
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ public class MongoRepository implements DataRepository {
     public MongoRepository() {
         try (FileProperties secrets = FileProperties.getInstance("secrets")) {
             String connectionURL = secrets.getProperty("mongodb.url");
+            logger.debug(connectionURL);
             init(connectionURL, "SEP4");
         } catch (IllegalArgumentException e) {
             throw new IllegalStateException("At least one of the accessed properties in secrets.properties doesn't exist", e);
@@ -125,6 +127,7 @@ public class MongoRepository implements DataRepository {
 
     @Override
     public void close() {
+        client.close();
         logger.info("Closing connection to MongoDB");
     }
 }

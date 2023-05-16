@@ -1,4 +1,4 @@
-package dk.via.sep4.cloud.data;
+package dk.via.sep4.cloud.data.dto;
 
 import lombok.Data;
 import org.json.JSONObject;
@@ -47,9 +47,9 @@ public class SensorReading {
 		JSONObject dateJson = dataJson.getJSONObject("time");
 		JSONObject timeJson = new JSONObject(dateJson.toString());
 
-		String pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern(pattern);
-		this.timeReceived=Timestamp.valueOf(LocalDateTime.parse(timeJson.getString("$date"), dtf));
+		String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+		DateTimeFormatter format = DateTimeFormatter.ofPattern(pattern);
+		this.timeReceived=Timestamp.valueOf(LocalDateTime.parse(timeJson.getString("$date"), format));
 	}
 
 	@Override public String toString() {

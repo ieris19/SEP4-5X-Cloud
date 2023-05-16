@@ -1,8 +1,8 @@
 package dk.via.sep4.cloud.web.service;
 
-import dk.via.sep4.cloud.data.SensorLimits;
-import dk.via.sep4.cloud.data.SensorReading;
-import dk.via.sep4.cloud.data.UserCredentials;
+import dk.via.sep4.cloud.data.dto.SensorLimits;
+import dk.via.sep4.cloud.data.dto.SensorReading;
+import dk.via.sep4.cloud.data.dto.UserCredentials;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
