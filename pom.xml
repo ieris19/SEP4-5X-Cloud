@@ -6,9 +6,16 @@
     <groupId>dk.via.sep4</groupId>
     <artifactId>cloud</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-    <name>cloud</name>
-    <description>cloud</description>
+    <name>Cloud Application</name>
+    <description>
+        A webserver tasked with exchanging and processing data between the LoRaWAN network and the web application that
+        are part of our SEP4 project.
+    </description>
+
+    <modules>
+    </modules>
 
     <properties>
         <sep4.java.version>17</sep4.java.version>
@@ -64,7 +71,6 @@
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver-sync</artifactId>
             <version>4.9.1</version>
-        </dependency>
     </dependencies>
 
     <build>
