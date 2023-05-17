@@ -6,6 +6,9 @@ import org.json.JSONObject;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
+
 /**
  * This class is used to store the sensor readings data in a Java environment.
  */
@@ -49,12 +52,16 @@ public class SensorReading {
 		JSONObject dateJson = dataJson.getJSONObject("time");
 		JSONObject timeJson = new JSONObject(dateJson.toString());
 
-		String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-		DateTimeFormatter format = DateTimeFormatter.ofPattern(pattern);
-		this.timeReceived=Timestamp.valueOf(LocalDateTime.parse(timeJson.getString("$date"), format));
 	}
 
 	@Override public String toString() {
 		return String.format("Reading[pir=%s, temperature=%s, humidity=%s, co2=%s, sound=%s, light=%s, code=%s, timeReceived=%s]", pir, temperature, humidity, co2, sound, light, code, timeReceived);
 	}
+        String pattern = "yyyy-MM-dd'T'HH:mm:ss";
+        DateTimeFormatter format = new DateTimeFormatterBuilder()
+                .appendPattern(pattern)
+                .appendFraction(ChronoField.MILLI_OF_SECOND, 0, 3, true)
+                .appendPattern("'Z'")
+                .toFormatter();
+        this.timeReceived = Timestamp.valueOf(LocalDateTime.parse(timeJson.getString("$date"), format));
 }
