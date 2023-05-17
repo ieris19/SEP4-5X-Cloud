@@ -12,7 +12,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
+/**
+ * This class is used to implement the DataRepository interface.
+ * The methods are implemented to return data in the form of Java class objects, so that the system can process it more easily.
+ */
 public class MongoRepository implements DataRepository {
     private MongoClient client;
     private MongoDatabase db;
@@ -32,7 +35,6 @@ public class MongoRepository implements DataRepository {
         }
 
     }
-
     void init(String connectionString, String databaseName) {
         client = MongoClients.create(connectionString);
         db = client.getDatabase(databaseName);

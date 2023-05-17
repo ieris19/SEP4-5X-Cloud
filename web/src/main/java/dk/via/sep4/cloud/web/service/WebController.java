@@ -6,7 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+/**
+ * This class is used to create a REST API for the web application.
+ * It gets the data from the database and returns it as JSON objects upon request.
+ * ResponseEntity is used to return the data as an HTTP response.
+ */
 @RestController
 @RequestMapping()
 public class WebController {
