@@ -5,11 +5,15 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>dk.via.sep4</groupId>
-        <artifactId>cloud</artifactId>
+        <artifactId>application</artifactId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../application/pom.xml</relativePath>
     </parent>
 
     <artifactId>lorawan</artifactId>
+
+    <name>Lorawan Network Module</name>
+    <description>This module handles all the communication with the LoRaWAN network</description>
 
     <dependencies>
         <dependency>

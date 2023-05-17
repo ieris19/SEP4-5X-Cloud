@@ -11,6 +11,9 @@
 
     <artifactId>data</artifactId>
 
+    <name>Data Module</name>
+    <description>This module handles all the communication with the database</description>
+
     <dependencies>
         <dependency>
             <groupId>org.mongodb</groupId>
