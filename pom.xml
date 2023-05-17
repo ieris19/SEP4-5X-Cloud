@@ -8,10 +8,10 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>Cloud Application</name>
+    <name>Cloud Project</name>
     <description>
-        A webserver tasked with exchanging and processing data between the LoRaWAN network and the web application that
-        are part of our SEP4 project.
+        This project aims to allow exchanging and processing data between the LoRaWAN network and the web application
+        that are part of our SEP4 project.
     </description>
 
     <modules>

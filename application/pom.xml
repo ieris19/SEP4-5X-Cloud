@@ -10,22 +10,28 @@
     </parent>
 
     <artifactId>application</artifactId>
+    <packaging>pom</packaging>
 
-    <dependencies>
-        <dependency>
-            <groupId>dk.via.sep4</groupId>
-            <artifactId>data</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>dk.via.sep4</groupId>
-            <artifactId>web</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>dk.via.sep4</groupId>
-            <artifactId>lorawan</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-    </dependencies>
+    <name>Cloud Application</name>
+    <description>This pom contains all the configuration that is common to all deployable applications</description>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.4.1</version>
+                <configuration>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
