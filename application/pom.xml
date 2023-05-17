@@ -15,17 +15,17 @@
         <dependency>
             <groupId>dk.via.sep4</groupId>
             <artifactId>data</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>dk.via.sep4</groupId>
             <artifactId>web</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>dk.via.sep4</groupId>
             <artifactId>lorawan</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
 </project>

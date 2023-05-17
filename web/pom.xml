@@ -20,7 +20,7 @@
         <dependency>
             <groupId>dk.via.sep4</groupId>
             <artifactId>data</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
 </project>
