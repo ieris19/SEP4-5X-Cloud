@@ -13,7 +13,10 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.WebSocket;
 import java.nio.ByteBuffer;
-
+/**
+ * This class is used to implement a client for the lorawan server.
+ * It implements the LorawanEventHandler interface to handle the events received from the server.
+ */
 @Service
 public class LorawanClient implements LorawanEventHandler {
     private final Logger logger = LoggerFactory.getLogger(LorawanClient.class);

@@ -9,7 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import java.io.Closeable;
 import java.io.IOException;
-
+/**
+ * This class is used as a database access for the web-api that returns JSON objects instead of implemented Java class objects.
+ */
 @Repository
 public class WebRepository implements Closeable {
     private DataRepository repository;

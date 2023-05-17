@@ -2,7 +2,9 @@ package dk.via.sep4.cloud.data.dto;
 
 import lombok.Data;
 import org.json.JSONObject;
-
+/**
+ * This class is used to store the user credentials data in a Java environment.
+ */
 @Data
 public class UserCredentials {
     private String username;

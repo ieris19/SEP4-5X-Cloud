@@ -8,7 +8,11 @@ import java.net.http.WebSocket;
 import java.nio.ByteBuffer;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
-
+/**
+ * This class is used to listen for messages from the lorawan server.
+ * The methods in this class are invoked by the WebSocket when a message is received.
+ * Each method will do specific tasks, depending on the message received.
+ */
 public class LorawanSocketListener implements WebSocket.Listener {
 	private final Logger logger = LoggerFactory.getLogger(LorawanSocketListener.class);
 	private final LorawanClient client;

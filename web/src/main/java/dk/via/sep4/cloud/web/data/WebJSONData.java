@@ -5,7 +5,9 @@ import dk.via.sep4.cloud.data.dto.SensorReading;
 import dk.via.sep4.cloud.data.dto.UserCredentials;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
+/**
+ * This class is used to convert the data received from the lorawan server to JSON format.
+ */
 public class WebJSONData {
 	public static String getReadingsAsJSON(SensorReading[] readings) {
 		JSONArray array=new JSONArray();

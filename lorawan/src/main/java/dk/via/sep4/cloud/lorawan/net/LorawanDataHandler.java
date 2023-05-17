@@ -12,7 +12,10 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.NoSuchElementException;
-
+/**
+ * This class is used to handle the data received from the lorawan network.
+ * It also handles the data to be sent to the lorawan network.
+ */
 public class LorawanDataHandler {
     private static final Logger logger = LoggerFactory.getLogger(LorawanDataHandler.class);
 

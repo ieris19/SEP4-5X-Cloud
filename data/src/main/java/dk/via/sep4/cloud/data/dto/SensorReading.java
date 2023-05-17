@@ -6,7 +6,9 @@ import org.json.JSONObject;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
+/**
+ * This class is used to store the sensor readings data in a Java environment.
+ */
 @Data
 public class SensorReading {
 	private String id;
