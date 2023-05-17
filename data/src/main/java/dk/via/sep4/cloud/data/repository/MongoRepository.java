@@ -5,7 +5,6 @@ import com.mongodb.client.*;
 import dk.via.sep4.cloud.data.DataRepository;
 import dk.via.sep4.cloud.data.dto.SensorLimits;
 import dk.via.sep4.cloud.data.dto.SensorReading;
-import dk.via.sep4.cloud.data.dto.UserCredentials;
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -107,26 +106,6 @@ public class MongoRepository implements DataRepository {
         extras.findOneAndDelete(filter);
         extras.insertOne(limitsDocument);
     }
-
-    @Override
-    public void insertCredentials(UserCredentials credentials) {
-        Document credentialsDocument = new Document("type", "user credentials")
-                .append("username", credentials.getUsername())
-                .append("password", credentials.getPassword());
-        extras.insertOne(credentialsDocument);
-    }
-
-    @Override
-    public UserCredentials getCredentials() {
-        Document filter = new Document("type", "user credentials");
-
-        FindIterable<Document> credentialsResult = extras.find(filter);
-
-        try (MongoCursor<Document> cursor = credentialsResult.iterator()) {
-            return new UserCredentials(cursor.next().toJson());
-        }
-    }
-
     @Override
     public void close() {
         client.close();

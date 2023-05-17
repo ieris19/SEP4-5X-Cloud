@@ -2,7 +2,6 @@ package dk.via.sep4.cloud.data.repository;
 
 import dk.via.sep4.cloud.data.dto.SensorLimits;
 import dk.via.sep4.cloud.data.dto.SensorReading;
-import dk.via.sep4.cloud.data.dto.UserCredentials;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,12 +31,6 @@ class ActiveMongoRepositoryTest {
         //Updating limits example
         mongoRepository.updateLimits(new SensorLimits(10, 35, 20, 80, 3000));
         logger.info(mongoRepository.getLimits().toString());
-
-        //Inserting user credentials example
-        mongoRepository.insertCredentials(new UserCredentials("Ryzhas_Momentas", "fotografuje_slimaka"));
-
-        //Retrieving credentials example
-        logger.info(mongoRepository.getCredentials().toString());
     }
 
 
