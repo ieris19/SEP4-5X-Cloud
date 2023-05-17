@@ -30,9 +30,4 @@ public class WebController {
     public ResponseEntity<String> getLimits() {
         return ResponseEntity.ok(repository.getLimits());
     }
-
-    @GetMapping("/credentials")
-    public ResponseEntity<String> getCredentials() {
-        return ResponseEntity.ok(repository.getCredentials());
-    }
 }

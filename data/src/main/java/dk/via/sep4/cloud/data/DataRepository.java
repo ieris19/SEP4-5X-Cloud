@@ -2,7 +2,6 @@ package dk.via.sep4.cloud.data;
 
 import dk.via.sep4.cloud.data.dto.SensorLimits;
 import dk.via.sep4.cloud.data.dto.SensorReading;
-import dk.via.sep4.cloud.data.dto.UserCredentials;
 
 import java.io.Closeable;
 /**
@@ -34,14 +33,4 @@ public interface DataRepository extends Closeable {
      * @param limits the sensor limits to be updated.
      */
     void updateLimits(SensorLimits limits);
-    /**
-     * This method is used to retrieve the user credentials from the database.
-     * @return the user credentials object.
-     */
-    UserCredentials getCredentials();
-    /**
-     * This method is used to insert the user credentials object into the database.
-     * @param credentials the user credentials to be inserted.
-     */
-    void insertCredentials(UserCredentials credentials);
 }
