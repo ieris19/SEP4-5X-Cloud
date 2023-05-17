@@ -6,7 +6,7 @@ import dk.via.sep4.cloud.data.dto.UserCredentials;
 
 import java.io.Closeable;
 /**
- * This interface is used as a database access for the web-api.
+ * This interface is used as a database access.
  */
 public interface DataRepository extends Closeable {
     /**
