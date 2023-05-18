@@ -1,13 +1,13 @@
-name: Build and Deploy to Google Cloud - App Engine
+name: Build and Deploy to Google Cloud
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "docker/setup" ]
   workflow_dispatch:
 
 jobs:
   deploy:
-    name: Deploy the application to App Engine
+    name: Deploy the application to Google Cloud
     permissions:
       contents: 'read'
       id-token: 'write'
@@ -38,6 +38,18 @@ jobs:
         name: Build the application with Maven
         run: mvn --batch-mode clean package -DskipTests --file pom.xml
 
-#      - id: docker-build
-#        name: Build the Docker Image
-#        run: docker build
+      - id : docker-login
+        name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DH_USER }}
+          password: ${{ secrets.DH_TOKEN }}
+
+      - id: docker-build-push
+        name: Build and Push the Docker Image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./web/Dockerfile
+          push: true
+          tags: ${{ secrets.DH_USER }}/sep4xg5cloud:latest
