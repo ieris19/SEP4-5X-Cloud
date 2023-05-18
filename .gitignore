@@ -23,4 +23,4 @@ target/
 *.ipr
 
 # Project Secrets
-/**/secrets.properties
+/**/secrets.*
