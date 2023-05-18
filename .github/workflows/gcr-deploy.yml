@@ -52,4 +52,8 @@ jobs:
           context: .
           file: ./web/Dockerfile
           push: true
-          tags: ${{ secrets.DH_USER }}/sep4xg5cloud:latest
+          tags: ${{ secrets.DH_USER }}/sep4xg5cloud:api-service
+
+#      - id: gcloud-config
+#        name: Configure Google Cloud CLI
+#        run: gcloud run deploy web-api --image
