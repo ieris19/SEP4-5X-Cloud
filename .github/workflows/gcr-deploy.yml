@@ -57,4 +57,4 @@ jobs:
 
       - id: gcloud-config
         name: Configure Google Cloud CLI
-        run: gcloud run deploy web-api --image docker.io/${{ secrets.DH_USER }}/${{ env.DOCKER_TAG }}
+        run: gcloud run deploy web-api --image docker.io/${{ secrets.DH_USER }}/${{ env.DOCKER_TAG }} --region europe-west4
