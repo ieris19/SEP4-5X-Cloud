@@ -17,7 +17,7 @@ jobs:
     steps:
       - id: checkout
         name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - id: gc-auth
         name: Authenticate into Google Cloud
@@ -49,7 +49,7 @@ jobs:
         name: Build and Push the Docker Image
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./web/
           file: ./web/Dockerfile
           push: true
           tags: ${{ secrets.DH_USER }}/sep4xg5cloud:api-service
