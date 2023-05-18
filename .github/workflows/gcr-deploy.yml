@@ -11,7 +11,8 @@ jobs:
     permissions:
       contents: 'read'
       id-token: 'write'
-
+    env:
+      DOCKER_TAG: 'sep4xg5cloud:api-service'
     runs-on: ubuntu-latest
 
     steps:
@@ -52,8 +53,8 @@ jobs:
           context: ./web/
           file: ./web/Dockerfile
           push: true
-          tags: ${{ secrets.DH_USER }}/sep4xg5cloud:api-service
+          tags: ${{ secrets.DH_USER }}/${{ env.DOCKER_TAG }}
 
-#      - id: gcloud-config
-#        name: Configure Google Cloud CLI
-#        run: gcloud run deploy web-api --image
+      - id: gcloud-config
+        name: Configure Google Cloud CLI
+        run: gcloud run deploy web-api --image docker.io/${{ secrets.DH_USER }}/${{ env.DOCKER_TAG }}
