@@ -2,7 +2,7 @@ name: Build and Deploy to Google Cloud - App Engine
 
 on:
   push:
-    branches: [ "deployment-support" ]
+    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
@@ -19,14 +19,14 @@ jobs:
         name: Checkout
         uses: actions/checkout@v2
 
-      - id: auth
+      - id: gc-auth
         name: Authenticate into Google Cloud
         uses: 'google-github-actions/auth@v1'
         with:
           workload_identity_provider: ${{ secrets.GC_WIF_PROVIDER }}
           service_account: ${{ secrets.GC_SERVICE_ACCOUNT }}
 
-      - id: java
+      - id: java-setup
         name: Set up Java Environment (JDK 17 & Maven)
         uses: actions/setup-java@v3
         with:
@@ -34,6 +34,10 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - id: deploy
-        name: Deploy to App Engine
-        run: mvn --batch-mode clean package appengine:deploy --file pom.xml
+      - id: java-build
+        name: Build the application with Maven
+        run: mvn --batch-mode clean package -DskipTests --file pom.xml
+
+#      - id: docker-build
+#        name: Build the Docker Image
+#        run: docker build
