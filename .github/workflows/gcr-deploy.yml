@@ -13,6 +13,7 @@ jobs:
       id-token: 'write'
     env:
       DOCKER_TAG: 'sep4xg5cloud:api-service'
+
     runs-on: ubuntu-latest
 
     steps:
@@ -55,6 +56,6 @@ jobs:
           workload_identity_provider: ${{ secrets.GC_WIF_PROVIDER }}
           service_account: ${{ secrets.GC_SERVICE_ACCOUNT }}
 
-      - id: gcloud-config
-        name: Configure Google Cloud CLI
-        run: gcloud run deploy web-api --image docker.io/${{ secrets.DH_USER }}/${{ env.DOCKER_TAG }} --region europe-west4
+      - id: gc-deploy
+        name: Deploy through Google Cloud CLI
+        run: gcloud run deploy web-api --image docker.io/${{ secrets.DH_USER }}/${{ env.DOCKER_TAG }} --allow-unauthenticated --region europe-west4 --project ${{ secrets.GC_PROJECT_ID }}
