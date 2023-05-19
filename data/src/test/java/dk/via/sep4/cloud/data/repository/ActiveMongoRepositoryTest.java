@@ -48,6 +48,10 @@ class ActiveMongoRepositoryTest {
         mongoRepository.updateLimits(new SensorLimits(10, 35, 20, 80, 3000));
         logger.info(mongoRepository.getLimits().toString());
         logger.info(mongoRepository.getReadings("2023-05-15").toString());
+
+        for (SensorReading reading: list) {
+            System.out.println(reading.toString());
+        }
     }
 
     private static void setUp() {
