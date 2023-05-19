@@ -11,8 +11,6 @@ jobs:
     permissions:
       contents: 'read'
       id-token: 'write'
-    env:
-      DOCKER_TAG: 'sep4xg5cloud:api-service'
 
     runs-on: ubuntu-latest
 
@@ -47,7 +45,7 @@ jobs:
           context: ./web/
           file: ./web/Dockerfile
           push: true
-          tags: ${{ secrets.DH_USER }}/${{ env.DOCKER_TAG }}
+          tags: ryzhasmomentas27/sep4xg5cloud:api-service
 
       - id: gc-auth
         name: Authenticate into Google Cloud
@@ -58,4 +56,4 @@ jobs:
 
       - id: gc-deploy
         name: Deploy through Google Cloud CLI
-        run: gcloud run deploy web-api --image docker.io/${{ secrets.DH_USER }}/${{ env.DOCKER_TAG }} --allow-unauthenticated --region europe-west4 --project ${{ secrets.GC_PROJECT_ID }}
+        run: gcloud run services replace .gcloud/web-service.yml --project ${{ secrets.GC_PROJECT_ID }}
