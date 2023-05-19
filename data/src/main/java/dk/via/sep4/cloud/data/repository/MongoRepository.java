@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * This class is used to implement the DataRepository interface.
  * The methods are implemented to return data in the form of Java class objects, so that the system can process it more easily.
@@ -66,7 +68,7 @@ public class MongoRepository implements DataRepository {
         Document filter1 = new Document("time", new Document("$date", Timestamp.valueOf(date+" 00:00:00.0")));
         Document filter2 = new Document("time", new Document("$date", Timestamp.valueOf(date+" 23:59:59.9")));
 
-        FindIterable<Document> allReadings = readings.find(new Document("$and", new Document[]{filter1, filter2}));
+        FindIterable<Document> allReadings = readings.find(new Document("$and", Arrays.asList(filter1, filter2)));
 
         ArrayList<SensorReading> list = new ArrayList<SensorReading>();
         try (MongoCursor<Document> cursor = allReadings.iterator()) {
