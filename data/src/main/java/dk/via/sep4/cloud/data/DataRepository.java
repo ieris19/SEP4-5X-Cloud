@@ -4,6 +4,8 @@ import dk.via.sep4.cloud.data.dto.SensorLimits;
 import dk.via.sep4.cloud.data.dto.SensorReading;
 
 import java.io.Closeable;
+import java.sql.Timestamp;
+
 /**
  * This interface is used as a database access.
  */
@@ -12,7 +14,7 @@ public interface DataRepository extends Closeable {
      * This method is used to retrieve all the sensor readings from the database.
      * @return an array of all the sensor readings in the database.
      */
-    SensorReading[] getReadings();
+    SensorReading[] getReadings(String date);
     /**
      * This method is used to insert a sensor reading object into the database.
      * @param reading the sensor reading to be inserted.

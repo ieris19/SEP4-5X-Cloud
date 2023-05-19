@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.sql.Timestamp;
+
 /**
  * This class is used as a database access for the web-api that returns JSON objects instead of implemented Java class objects.
  */
@@ -20,8 +22,8 @@ public class WebRepository implements Closeable {
         this.repository = repository;
     }
 
-    public String getReadings() {
-        SensorReading[] readings = repository.getReadings();
+    public String getReadings(String date) {
+        SensorReading[] readings = repository.getReadings(date);
         return WebJSONData.getReadingsAsJSON(readings);
     }
 

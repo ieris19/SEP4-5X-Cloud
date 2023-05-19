@@ -3,10 +3,10 @@ package dk.via.sep4.cloud.web.service;
 import dk.via.sep4.cloud.web.data.WebRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.sql.Timestamp;
+
 /**
  * This class is used to create a REST API for the web application.
  * It gets the data from the database and returns it as JSON objects upon request.
@@ -24,8 +24,8 @@ public class WebController {
 
     @GetMapping("/readings")
     @CrossOrigin(origins = {"http://localhost:8080", "http://localhost:3000"})
-    public ResponseEntity<String> getReadings() {
-        return ResponseEntity.ok(repository.getReadings());
+    public ResponseEntity<String> getReadings(@RequestParam String date) {
+        return ResponseEntity.ok(repository.getReadings(date));
     }
 
     @GetMapping("/limits")
