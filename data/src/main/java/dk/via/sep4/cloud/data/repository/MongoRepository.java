@@ -65,10 +65,12 @@ public class MongoRepository implements DataRepository {
 
     @Override
     public SensorReading[] getReadings(String date) {
-        Document filter1 = new Document("time", new Document("$date", Timestamp.valueOf(date+" 00:00:00.0")));
-        Document filter2 = new Document("time", new Document("$date", Timestamp.valueOf(date+" 23:59:59.9")));
+        Timestamp start = Timestamp.valueOf(date + " 00:00:00");
+        Timestamp end = Timestamp.valueOf(date + " 23:59:59");
 
-        FindIterable<Document> allReadings = readings.find(new Document("$and", Arrays.asList(filter1, filter2)));
+        FindIterable<Document> allReadings = readings.find(new Document("time", new Document("$gte", start).append("$lte", end)));
+
+//        FindIterable<Document> allReadings = readings.find();
 
         ArrayList<SensorReading> list = new ArrayList<SensorReading>();
         try (MongoCursor<Document> cursor = allReadings.iterator()) {
