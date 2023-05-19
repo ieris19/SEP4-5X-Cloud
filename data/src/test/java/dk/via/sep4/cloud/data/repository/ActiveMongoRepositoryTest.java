@@ -56,7 +56,7 @@ class ActiveMongoRepositoryTest {
 
     private static void setUp() {
         mongoRepository = new MongoRepository();
-        mongoRepository.init(getURI(), "SEP4");
+        mongoRepository.init(getURI(), "SEP4TEST");
         mongoRepository.clearEntireDatabase();
     }
 }
