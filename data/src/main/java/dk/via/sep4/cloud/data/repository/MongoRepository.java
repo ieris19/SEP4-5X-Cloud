@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 /**
  * This class is used to implement the DataRepository interface.
@@ -61,8 +62,11 @@ public class MongoRepository implements DataRepository {
     }
 
     @Override
-    public SensorReading[] getReadings() {
-        FindIterable<Document> allReadings = readings.find();
+    public SensorReading[] getReadings(String date) {
+        Document filter1 = new Document("time", new Document("$date", Timestamp.valueOf(date+" 00:00:00.0")));
+        Document filter2 = new Document("time", new Document("$date", Timestamp.valueOf(date+" 23:59:59.9")));
+
+        FindIterable<Document> allReadings = readings.find(new Document("$and", new Document[]{filter1, filter2}));
 
         ArrayList<SensorReading> list = new ArrayList<SensorReading>();
         try (MongoCursor<Document> cursor = allReadings.iterator()) {
