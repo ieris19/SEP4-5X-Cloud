@@ -21,4 +21,8 @@
             <version>4.9.1</version>
         </dependency>
     </dependencies>
+    
+    <build>
+        <finalName>data-access-layer</finalName>
+    </build>
 </project>
