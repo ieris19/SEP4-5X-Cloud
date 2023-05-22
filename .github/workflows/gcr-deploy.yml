@@ -2,7 +2,7 @@ name: Build and Deploy to Google Cloud
 
 on:
   push:
-    branches: [ "main", "docker/setup" ]
+    branches: [ "main", "docker/*" ]
   workflow_dispatch:
 
 jobs:
