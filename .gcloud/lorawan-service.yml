@@ -1,7 +1,7 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: lorawan
+  name: lorawan-service
   labels:
     cloud.googleapis.com/location: europe-west4
   annotations:
@@ -14,13 +14,14 @@ spec:
       annotations:
         run.googleapis.com/client-name: cloud-console
         autoscaling.knative.dev/minScale: '1'
-        autoscaling.knative.dev/maxScale: '100'
+        autoscaling.knative.dev/maxScale: '1'
+        run.googleapis.com/cpu-throttling: 'false'
     spec:
       containerConcurrency: 80
       timeoutSeconds: 300
       serviceAccountName: 101756015094-compute@developer.gserviceaccount.com
       containers:
-        - image: 'docker.io/ryzhasmomentas27/sep4xg5cloud:lorawan-service'
+        - image: ryzhasmomentas27/sep4xg5cloud:lorawan-service
           ports:
             - name: http1
               containerPort: 8080
@@ -30,16 +31,16 @@ spec:
                 secretKeyRef:
                   key: '1'
                   name: mongodb_url
-            - name: lorawan_url
-              valueFrom:
-                secretKeyRef:
-                  key: '2'
-                  name: lorawan_url
             - name: lorawan_EUI_dev
               valueFrom:
                 secretKeyRef:
-                  key: '3'
-                  name: lorawan_EUI_dev
+                  key: '1'
+                  name: lorawan_EUI-dev
+            - name: lorawan_url
+              valueFrom:
+                secretKeyRef:
+                  key: '1'
+                  name: lorawan_url
           resources:
             limits:
               cpu: 1000m

@@ -66,3 +66,4 @@ jobs:
       - id: gc-deploy
         name: Deploy through Google Cloud CLI
         run: gcloud run services replace .gcloud/web-service.yml --project ${{ secrets.GC_PROJECT_ID }}
+        run: gcloud run services replace .gcloud/lorawan-service.yml --project ${{ secrets.GC_PROJECT_ID }}
