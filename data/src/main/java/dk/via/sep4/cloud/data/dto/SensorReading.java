@@ -56,7 +56,7 @@ public class SensorReading {
 		DateTimeFormatter format = new DateTimeFormatterBuilder()
 				.appendPattern(pattern)
 				.appendFraction(ChronoField.MILLI_OF_SECOND, 0, 3, true)
-				.appendPattern("'Z'")
+				.appendLiteral("Z")
 				.toFormatter();
 		this.timeReceived = Timestamp.valueOf(LocalDateTime.parse(timeJson.getString("$date"), format));
 	}
