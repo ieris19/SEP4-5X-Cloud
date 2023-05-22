@@ -2,12 +2,12 @@ name: Build and Deploy to Google Cloud
 
 on:
   push:
-    branches: [ "main", "docker/*" ]
+    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
-  deploy:
-    name: Deploy the application to Google Cloud
+  java-build:
+    name: Build the Java Application
     permissions:
       contents: 'read'
       id-token: 'write'
@@ -63,7 +63,10 @@ jobs:
           workload_identity_provider: ${{ secrets.GC_WIF_PROVIDER }}
           service_account: ${{ secrets.GC_SERVICE_ACCOUNT }}
 
-      - id: gc-deploy
-        name: Deploy through Google Cloud CLI
+      - id: api-deploy
+        name: Deploy Web-API-Service through Google Cloud CLI
         run: gcloud run services replace .gcloud/web-service.yml --project ${{ secrets.GC_PROJECT_ID }}
+
+      - id: lorawan-deploy
+        name: Deploy Lorawan-Service through Google Cloud CLI
         run: gcloud run services replace .gcloud/lorawan-service.yml --project ${{ secrets.GC_PROJECT_ID }}
