@@ -38,14 +38,23 @@ jobs:
           username: ${{ secrets.DH_USER }}
           password: ${{ secrets.DH_TOKEN }}
 
-      - id: docker-build-push
-        name: Build and Push the Docker Image
+      - id: docker-build-push-web
+        name: Build and Push the Docker Image for Web Service
         uses: docker/build-push-action@v4
         with:
           context: ./web/
           file: ./web/Dockerfile
           push: true
           tags: ryzhasmomentas27/sep4xg5cloud:api-service
+
+      - id: docker-build-push-lorawan
+        name: Build and Push the Docker Image for Lorwan Service
+        uses: docker/build-push-action@v4
+        with:
+          context: ./lorawan/
+          file: ./lorawan/Dockerfile
+          push: true
+          tags: ryzhasmomentas27/sep4xg5cloud:lorawan-service
 
       - id: gc-auth
         name: Authenticate into Google Cloud
