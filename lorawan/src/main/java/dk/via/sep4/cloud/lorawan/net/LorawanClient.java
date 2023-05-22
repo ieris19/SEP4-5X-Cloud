@@ -6,13 +6,11 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.WebSocket;
-import java.nio.ByteBuffer;
 /**
  * This class is used to implement a client for the lorawan server.
  * It implements the LorawanEventHandler interface to handle the events received from the server.
@@ -33,11 +31,6 @@ public class LorawanClient implements LorawanEventHandler {
         this.listener = new LorawanSocketListener(this);
         this.lorawanSocket = client.newWebSocketBuilder().buildAsync(lorawnURI, listener).join();
         this.dispatcher = new LorawanSocketDispatcher(lorawanSocket, this);
-    }
-
-    @Scheduled(fixedRate = 180000)
-    public void keepAlive() {
-        lorawanSocket.sendPing(ByteBuffer.allocate(0));
     }
 
     @Override
