@@ -17,11 +17,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <version>${sep4.dependencyVersion.spring}</version>
-        </dependency>
-        <dependency>
             <groupId>dk.via.sep4</groupId>
             <artifactId>data</artifactId>
             <version>${project.parent.version}</version>
