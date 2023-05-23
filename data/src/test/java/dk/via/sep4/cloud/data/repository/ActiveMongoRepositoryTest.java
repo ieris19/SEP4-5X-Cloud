@@ -45,7 +45,7 @@ class ActiveMongoRepositoryTest {
         logger.info(mongoRepository.getLimits().toString());
 //
 //        //Updating limits example
-        mongoRepository.updateLimits(new SensorLimits(10, 35, 20, 80, 3000));
+        mongoRepository.updateLimits("10", "35", "20", "80", "3000");
         logger.info(mongoRepository.getLimits().toString());
         logger.info(mongoRepository.getReadings("2023-05-15").toString());
 
