@@ -41,6 +41,16 @@ public class WebController {
         }
     }
 
+    @PatchMapping("/limits")
+    public ResponseEntity<String> updateLimits(@RequestBody String minTemp, @RequestBody String maxTemp, @RequestBody String minHumidity, @RequestBody String maxHumidity, @RequestBody String maxCO2) {
+        try {
+            repository.updateLimits(minTemp, maxTemp, minHumidity, maxHumidity, maxCO2);
+            return ResponseEntity.ok("Limits updated successfully!");
+        } catch (Exception e) {
+            return handleException(e);
+        }
+    }
+
     private ResponseEntity<String> handleException(Exception e) {
         logger.error("An internal error has occurred serving a request!", e);
         Class<? extends Exception> errorClass = e.getClass();
