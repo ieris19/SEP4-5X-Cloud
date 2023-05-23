@@ -102,8 +102,15 @@ public class MongoRepository implements DataRepository {
     }
 
     @Override
-    public void updateLimits(SensorLimits limits) {
+    public void updateLimits(String minTemperature, String maxTemperature, String minHumidity, String maxHumidity, String maxCo2) {
         Document filter = new Document("type", "limit values");
+
+        SensorLimits limits = new SensorLimits();
+        limits.setMinTemperature(Integer.valueOf(minTemperature));
+        limits.setMaxTemperature(Integer.valueOf(maxTemperature));
+        limits.setMinHumidity(Integer.valueOf(minHumidity));
+        limits.setMaxHumidity(Integer.valueOf(maxHumidity));
+        limits.setMaxCo2(Integer.valueOf(maxCo2));
 
         Document limitsDocument = new Document("type", "limit values")
                 .append("minTemperature", limits.getMinTemperature())
