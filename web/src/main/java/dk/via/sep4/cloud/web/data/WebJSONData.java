@@ -2,6 +2,7 @@ package dk.via.sep4.cloud.web.data;
 
 import dk.via.sep4.cloud.data.dto.SensorLimits;
 import dk.via.sep4.cloud.data.dto.SensorReading;
+import dk.via.sep4.cloud.data.dto.SensorState;
 import org.json.JSONArray;
 import org.json.JSONObject;
 /**
@@ -35,6 +36,12 @@ public class WebJSONData {
 		object.put("maxHumidity", limits.getMaxHumidity());
 		object.put("maxCo2", limits.getMaxCo2());
 
+		return object.toString();
+	}
+
+	public static String getStateAsJSON(SensorState state) {
+		JSONObject object=new JSONObject();
+		object.put("state", state.isOn());
 		return object.toString();
 	}
 }
