@@ -54,6 +54,27 @@ public class WebController {
         }
     }
 
+    @CrossOrigin(origins = "https://ardent-rush-387710.ew.r.appspot.com")
+    @GetMapping("/state")
+    public ResponseEntity<String> getState() {
+        try {
+            return ResponseEntity.ok(repository.getState());
+        } catch (Exception e) {
+            return handleException(e);
+        }
+    }
+
+    @CrossOrigin(origins = "https://ardent-rush-387710.ew.r.appspot.com")
+    @PatchMapping("/state")
+    public ResponseEntity<String> updateState(@RequestBody String state) {
+        try {
+            repository.updateState(state);
+            return ResponseEntity.ok("State updated successfully!");
+        } catch (Exception e) {
+            return handleException(e);
+        }
+    }
+
     private ResponseEntity<String> handleException(Exception e) {
         logger.error("An internal error has occurred serving a request!", e);
         Class<? extends Exception> errorClass = e.getClass();
