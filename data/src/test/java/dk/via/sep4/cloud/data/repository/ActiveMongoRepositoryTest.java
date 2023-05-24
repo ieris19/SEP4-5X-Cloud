@@ -3,6 +3,7 @@ package dk.via.sep4.cloud.data.repository;
 import com.ieris19.lib.files.config.FileProperties;
 import dk.via.sep4.cloud.data.dto.SensorLimits;
 import dk.via.sep4.cloud.data.dto.SensorReading;
+import dk.via.sep4.cloud.data.dto.SensorState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,9 +50,19 @@ class ActiveMongoRepositoryTest {
         logger.info(mongoRepository.getLimits().toString());
         logger.info(mongoRepository.getReadings("2023-05-15").toString());
 
-        for (SensorReading reading: list) {
-            System.out.println(reading.toString());
-        }
+//        for (SensorReading reading: list) {
+//            System.out.println(reading.toString());
+//        }
+
+        //Inserting sensor state example
+        mongoRepository.insertState(new SensorState(true));
+
+        //Retrieving sensor state example
+        System.out.println(mongoRepository.getState().toString());
+
+        //Updating sensor state example
+        mongoRepository.updateState("false");
+        System.out.println(mongoRepository.getState().toString());
     }
 
     private static void setUp() {
