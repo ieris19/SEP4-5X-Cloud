@@ -4,6 +4,7 @@ import com.ieris19.lib.files.config.FileProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -16,6 +17,7 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 
 @SpringBootApplication(scanBasePackages = {"dk.via.sep4.cloud.lorawan", "dk.via.sep4.cloud.data"})
+@EnableScheduling
 public class LorawanApplication {
     public static void main(String[] args) {
         sslContextSetup();
