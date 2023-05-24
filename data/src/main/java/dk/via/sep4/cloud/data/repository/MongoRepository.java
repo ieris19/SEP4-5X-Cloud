@@ -5,6 +5,7 @@ import com.mongodb.client.*;
 import dk.via.sep4.cloud.data.DataRepository;
 import dk.via.sep4.cloud.data.dto.SensorLimits;
 import dk.via.sep4.cloud.data.dto.SensorReading;
+import dk.via.sep4.cloud.data.dto.SensorState;
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -121,6 +122,35 @@ public class MongoRepository implements DataRepository {
         extras.findOneAndDelete(filter);
         extras.insertOne(limitsDocument);
     }
+
+    @Override
+    public void insertState(SensorState state) {
+        Document stateDocument = new Document("type", "state")
+                .append("state", state.isOn());
+        extras.insertOne(stateDocument);
+    }
+
+    @Override
+    public SensorState getState() {
+        Document filter = new Document("type", "state");
+        FindIterable<Document> dbResult = extras.find(filter);
+        try (MongoCursor<Document> cursor = dbResult.iterator()) {
+            return new SensorState(cursor.next().toJson());
+        }
+    }
+
+    @Override
+    public void updateState(String state) {
+        Document filter = new Document("type", "state");
+
+        SensorState stateObject = new SensorState(Boolean.valueOf(state));
+
+        Document stateDocument = new Document("type", "state")
+                .append("state", stateObject.isOn());
+        extras.findOneAndDelete(filter);
+        extras.insertOne(stateDocument);
+    }
+
     @Override
     public void close() {
         client.close();

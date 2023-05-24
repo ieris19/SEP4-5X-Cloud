@@ -2,9 +2,9 @@ package dk.via.sep4.cloud.data;
 
 import dk.via.sep4.cloud.data.dto.SensorLimits;
 import dk.via.sep4.cloud.data.dto.SensorReading;
+import dk.via.sep4.cloud.data.dto.SensorState;
 
 import java.io.Closeable;
-import java.sql.Timestamp;
 
 /**
  * This interface is used as a database access.
@@ -40,4 +40,7 @@ public interface DataRepository extends Closeable {
      * @param maxCO2 the maximum CO2.
      */
     void updateLimits(String minTemp, String maxTemp, String minHumidity, String maxHumidity, String maxCO2);
+    void insertState(SensorState state);
+    SensorState getState();
+    void updateState(String state);
 }
