@@ -1,0 +1,74 @@
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  deploy:
+    name: Build the Java Application
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - id: checkout
+        name: Checkout
+        uses: actions/checkout@v3
+
+      - id: java-setup
+        name: Set up Java Environment (JDK 17 & Maven)
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - id: java-build
+        name: Build the application with Maven
+        run: mvn --batch-mode clean package -DskipTests --file pom.xml
+
+      - id: create-tag
+        name: Create a new tag
+        run: echo "tag=${GITHUB_REF#refs/v*/}" >> $GITHUB_OUTPUT
+
+      - id: docker-login
+        name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DH_USER }}
+          password: ${{ secrets.DH_TOKEN }}
+
+      - id: docker-build-push-web
+        name: Build and Push the Docker Image for Web Service
+        uses: docker/build-push-action@v4
+        with:
+          context: ./web/
+          file: ./web/Dockerfile
+          push: true
+          tags: ieris19/sep4-web-service:${{steps.run_tests.outputs.tag}}
+
+      - id: docker-build-push-lorawan
+        name: Build and Push the Docker Image for Lorwan Service
+        uses: docker/build-push-action@v4
+        with:
+          context: ./lorawan/
+          file: ./lorawan/Dockerfile
+          push: true
+          tags: ieris19/sep4-lorawan-service:${{steps.run_tests.outputs.tag}}
+
+      - id: gc-auth
+        name: Authenticate into Google Cloud
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: ${{ secrets.GC_WIF_PROVIDER }}
+          service_account: ${{ secrets.GC_SERVICE_ACCOUNT }}
+
+      - id: api-deploy
+        name: Deploy Web-API-Service through Google Cloud CLI
+        run: gcloud run services replace .gcloud/web-service.yml --project ${{ secrets.GC_PROJECT_ID }}
+
+      - id: lorawan-deploy
+        name: Deploy Lorawan-Service through Google Cloud CLI
+        run: gcloud run services replace .gcloud/lorawan-service.yml --project ${{ secrets.GC_PROJECT_ID }}
