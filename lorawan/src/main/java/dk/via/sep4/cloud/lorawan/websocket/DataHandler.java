@@ -71,7 +71,7 @@ public class DataHandler {
                 .append(String.format("%02X", limits.getMinTemperature()))
                 .append(String.format("%02X", limits.getMaxHumidity()))
                 .append(String.format("%02X", limits.getMinHumidity()))
-                .append(String.format("%02X", limits.getMaxCo2()));
+                .append(String.format("%04X", limits.getMaxCo2()));
 
         log.trace("Raw Payload: {}", hexData);
         int portNumber = jsonData.getInt("port");
