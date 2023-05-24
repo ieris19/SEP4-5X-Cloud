@@ -3,10 +3,9 @@ name: Build and Deploy to Google Cloud
 on:
   push:
     branches: [ "main" ]
-  workflow_dispatch:
 
 jobs:
-  java-build:
+  deploy:
     name: Build the Java Application
     permissions:
       contents: 'read'
@@ -25,7 +24,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: maven
+          cache: 'maven'
 
       - id: java-build
         name: Build the application with Maven
@@ -45,7 +44,7 @@ jobs:
           context: ./web/
           file: ./web/Dockerfile
           push: true
-          tags: ryzhasmomentas27/sep4xg5cloud:api-service
+          tags: ieris19/sep4-web-service:snapshot
 
       - id: docker-build-push-lorawan
         name: Build and Push the Docker Image for Lorwan Service
@@ -54,7 +53,7 @@ jobs:
           context: ./lorawan/
           file: ./lorawan/Dockerfile
           push: true
-          tags: ryzhasmomentas27/sep4xg5cloud:lorawan-service
+          tags: ieris19/sep4-lorawan-service:snapshot
 
       - id: gc-auth
         name: Authenticate into Google Cloud
