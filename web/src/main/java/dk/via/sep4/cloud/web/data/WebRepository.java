@@ -3,6 +3,7 @@ package dk.via.sep4.cloud.web.data;
 import dk.via.sep4.cloud.data.DataRepository;
 import dk.via.sep4.cloud.data.dto.SensorLimits;
 import dk.via.sep4.cloud.data.dto.SensorReading;
+import dk.via.sep4.cloud.data.dto.SensorState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -42,6 +43,14 @@ public class WebRepository implements Closeable {
 
     public void updateLimits(String minTemp, String maxTemp, String minHumidity, String maxHumidity, String maxCO2) {
         repository.updateLimits(minTemp, maxTemp, minHumidity, maxHumidity, maxCO2);
+    }
+
+    public String getState() {
+        SensorState state=repository.getState();
+        return WebJSONData.getStateAsJSON(state);
+    }
+    public void updateState(String state) {
+        repository.updateState(state);
     }
     public void close() throws IOException {
         repository.close();
