@@ -126,7 +126,7 @@ public class MongoRepository implements DataRepository {
     @Override
     public void insertState(SensorState state) {
         Document stateDocument = new Document("type", "state")
-                .append("state", state.isOn());
+                .append("isOn", state.isOn());
         extras.insertOne(stateDocument);
     }
 
@@ -146,7 +146,7 @@ public class MongoRepository implements DataRepository {
         SensorState stateObject = new SensorState(Boolean.valueOf(state));
 
         Document stateDocument = new Document("type", "state")
-                .append("state", stateObject.isOn());
+                .append("isOn", stateObject.isOn());
         extras.findOneAndDelete(filter);
         extras.insertOne(stateDocument);
     }
