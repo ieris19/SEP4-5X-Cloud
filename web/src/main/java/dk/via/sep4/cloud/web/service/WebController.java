@@ -23,7 +23,7 @@ public class WebController {
         repository = webRepository;
     }
 
-    @CrossOrigin(origins = "https://ardent-rush-387710.ew.r.appspot.com")
+    @CrossOrigin
     @GetMapping("/readings")
     public ResponseEntity<String> getReadings(@RequestParam String date) {
         try {
@@ -33,7 +33,7 @@ public class WebController {
         }
     }
 
-    @CrossOrigin(origins = "https://ardent-rush-387710.ew.r.appspot.com")
+    @CrossOrigin
     @GetMapping("/limits")
     public ResponseEntity<String> getLimits() {
         try {
@@ -43,7 +43,7 @@ public class WebController {
         }
     }
 
-    @CrossOrigin(origins = "https://ardent-rush-387710.ew.r.appspot.com")
+    @CrossOrigin
     @PatchMapping("/limits")
     public ResponseEntity<String> updateLimits(@RequestBody String minTemp, @RequestBody String maxTemp, @RequestBody String minHumidity, @RequestBody String maxHumidity, @RequestBody String maxCO2) {
         try {
@@ -54,7 +54,7 @@ public class WebController {
         }
     }
 
-    @CrossOrigin(origins = "https://ardent-rush-387710.ew.r.appspot.com")
+    @CrossOrigin
     @GetMapping("/state")
     public ResponseEntity<String> getState() {
         try {
@@ -64,7 +64,7 @@ public class WebController {
         }
     }
 
-    @CrossOrigin(origins = "https://ardent-rush-387710.ew.r.appspot.com")
+    @CrossOrigin
     @PatchMapping("/state")
     public ResponseEntity<String> updateState(@RequestBody String state) {
         try {
