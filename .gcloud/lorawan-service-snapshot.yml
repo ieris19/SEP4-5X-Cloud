@@ -21,7 +21,7 @@ spec:
       timeoutSeconds: 300
       serviceAccountName: 101756015094-compute@developer.gserviceaccount.com
       containers:
-        - image: ieris19/sep4-lorawan-service:latest
+        - image: ieris19/sep4-lorawan-service:snapshot
           ports:
             - name: http1
               containerPort: 5173
