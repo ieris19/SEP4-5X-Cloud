@@ -47,7 +47,7 @@ jobs:
           context: ./web/
           file: ./web/Dockerfile
           push: true
-          tags: ieris19/sep4-web-service:${{steps.run_tests.outputs.tag}}
+          tags: ieris19/sep4-web-service:${{steps.create-tag.outputs.tag}}
 
       - id: docker-build-push-lorawan
         name: Build and Push the Docker Image for Lorwan Service
@@ -56,7 +56,7 @@ jobs:
           context: ./lorawan/
           file: ./lorawan/Dockerfile
           push: true
-          tags: ieris19/sep4-lorawan-service:${{steps.run_tests.outputs.tag}}
+          tags: ieris19/sep4-lorawan-service:${{steps.create-tag.outputs.tag}}
 
       - id: gc-auth
         name: Authenticate into Google Cloud
@@ -67,8 +67,8 @@ jobs:
 
       - id: api-deploy
         name: Deploy Web-API-Service through Google Cloud CLI
-        run: gcloud run services replace .gcloud/web-service.yml --project ${{ secrets.GC_PROJECT_ID }}
+        run: gcloud run services replace .gcloud/web-service-snapshot.yml --project ${{ secrets.GC_PROJECT_ID }}
 
       - id: lorawan-deploy
         name: Deploy Lorawan-Service through Google Cloud CLI
-        run: gcloud run services replace .gcloud/lorawan-service.yml --project ${{ secrets.GC_PROJECT_ID }}
+        run: gcloud run services replace .gcloud/lorawan-service-snapshot.yml --project ${{ secrets.GC_PROJECT_ID }}
