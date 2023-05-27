@@ -26,6 +26,12 @@ public interface DataRepository extends Closeable {
      */
     SensorLimits getLimits();
     /**
+     * This method is used to add a comment to a specified reading.
+     * @param id the id of the reading.
+     * @param comment the comment to be added.
+     */
+    void addComment(String id, String comment);
+    /**
      * This method is used to insert the sensor limits object into the database.
      * @param limits the sensor limits to be inserted.
      */
@@ -40,7 +46,19 @@ public interface DataRepository extends Closeable {
      * @param maxCO2 the maximum CO2.
      */
     void updateLimits(String minTemp, String maxTemp, String minHumidity, String maxHumidity, String maxCO2);
+    /**
+     * This method is used to retrieve the sensor state from the database.
+     * @param state the sensor state to be inserted.
+     */
     void insertState(SensorState state);
+    /**
+     * This method is used to retrieve the sensor state from the database.
+     * @return the sensor state object.
+     */
     SensorState getState();
+    /**
+     * This method is used to update the sensor state in the database.
+     * @param state the sensor state to be updated.
+     */
     void updateState(String state);
 }
