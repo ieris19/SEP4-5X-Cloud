@@ -1,6 +1,7 @@
 package dk.via.sep4.cloud.data.dto;
 
 import lombok.Data;
+import org.bson.Document;
 import org.json.JSONObject;
 /**
  * This class is used to store the sensor limits data in a Java environment.
@@ -32,5 +33,15 @@ public class SensorLimits {
         this.minHumidity = dataJson.getInt("minHumidity");
         this.maxHumidity = dataJson.getInt("maxHumidity");
         this.maxCo2 = dataJson.getInt("maxCo2");
+    }
+
+    public Document toJSON() {
+        Document limitsDocument = new Document("type", "limit values")
+                .append("minTemperature", this.minTemperature)
+                .append("maxTemperature", this.maxTemperature)
+                .append("minHumidity", this.minHumidity)
+                .append("maxHumidity", this.maxHumidity)
+                .append("maxCo2", this.maxCo2);
+        return limitsDocument;
     }
 }
