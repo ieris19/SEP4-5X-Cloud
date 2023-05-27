@@ -18,9 +18,15 @@ public class SensorState {
         this.isOn = isOn;
     }
 
-    public Document toJSON() {
+    public Document toBSON() {
         Document stateDocument = new Document("type", "state")
                 .append("isOn", this.isOn);
         return stateDocument;
+    }
+
+    public JSONObject toJSON() {
+        JSONObject object=new JSONObject();
+        object.put("isOn", this.isOn);
+        return object;
     }
 }

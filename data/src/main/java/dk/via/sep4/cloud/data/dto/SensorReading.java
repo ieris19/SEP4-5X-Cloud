@@ -78,7 +78,7 @@ public class SensorReading {
 	@Override public String toString() {
 		return String.format("Reading[pir=%s, temperature=%s, humidity=%s, co2=%s, sound=%s, light=%s, code=%s, timeReceived=%s]", pir, temperature, humidity, co2, sound, light, code, timeReceived);
 	}
-	public Document toJSON()
+	public Document toBSON()
 	{
 		Document readingDocument = new Document("pir", this.pir)
 				.append("temperature", this.temperature)
@@ -90,5 +90,21 @@ public class SensorReading {
 				.append("time", this.timeReceived)
 				.append("comment", this.comment);
 		return readingDocument;
+	}
+
+	public JSONObject toJSON() {
+		JSONObject object=new JSONObject();
+
+		object.put("pir", this.pir);
+		object.put("temperature", this.temperature);
+		object.put("humidity", this.humidity);
+		object.put("co2", this.co2);
+		object.put("sound", this.sound);
+		object.put("light", this.light);
+		object.put("code", this.code);
+		object.put("time", this.timeReceived);
+		object.put("comment", this.comment);
+
+		return object;
 	}
 }
