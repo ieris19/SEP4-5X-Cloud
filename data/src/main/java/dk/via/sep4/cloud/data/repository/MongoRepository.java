@@ -52,7 +52,7 @@ public class MongoRepository implements DataRepository {
 
     @Override
     public void insertReading(SensorReading reading) {
-        readings.insertOne(reading.toJSON());
+        readings.insertOne(reading.toBSON());
     }
 
     @Override
@@ -75,7 +75,7 @@ public class MongoRepository implements DataRepository {
 
     @Override
     public void insertLimits(SensorLimits limits) {
-        extras.insertOne(limits.toJSON());
+        extras.insertOne(limits.toBSON());
     }
 
     @Override
@@ -101,12 +101,12 @@ public class MongoRepository implements DataRepository {
         SensorLimits limits = new SensorLimits(Integer.valueOf(minTemperature), Integer.valueOf(maxTemperature), Integer.valueOf(minHumidity), Integer.valueOf(maxHumidity), Integer.valueOf(maxCo2));
 
         extras.findOneAndDelete(filter);
-        extras.insertOne(limits.toJSON());
+        extras.insertOne(limits.toBSON());
     }
 
     @Override
     public void insertState(SensorState state) {
-        extras.insertOne(state.toJSON());
+        extras.insertOne(state.toBSON());
     }
 
     @Override
@@ -125,7 +125,7 @@ public class MongoRepository implements DataRepository {
         SensorState stateObject = new SensorState(Boolean.valueOf(state));
 
         extras.findOneAndDelete(filter);
-        extras.insertOne(stateObject.toJSON());
+        extras.insertOne(stateObject.toBSON());
     }
 
     @Override
