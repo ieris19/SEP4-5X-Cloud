@@ -4,6 +4,8 @@ import dk.via.sep4.cloud.data.DataRepository;
 import dk.via.sep4.cloud.data.dto.SensorLimits;
 import dk.via.sep4.cloud.data.dto.SensorReading;
 import dk.via.sep4.cloud.data.dto.SensorState;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -25,7 +27,13 @@ public class WebRepository implements Closeable {
 
     public String getReadings(String date) {
         SensorReading[] readings = repository.getReadings(date);
-        return WebJSONData.getReadingsAsJSON(readings);
+        JSONArray array=new JSONArray();
+        for (SensorReading reading:readings)
+        {
+            array.put(reading.toJSON());
+        }
+
+        return array.toString();
     }
 
     public void insertReading(SensorReading reading) {
@@ -33,8 +41,7 @@ public class WebRepository implements Closeable {
     }
 
     public String getLimits() {
-        SensorLimits limits = repository.getLimits();
-        return WebJSONData.getLimitsAsJSON(limits);
+        return repository.getLimits().toJSON().toString();
     }
 
     public void insertLimits(SensorLimits limits) {
@@ -46,13 +53,16 @@ public class WebRepository implements Closeable {
     }
 
     public String getState() {
-        SensorState state=repository.getState();
-        return WebJSONData.getStateAsJSON(state);
+        return repository.getState().toJSON().toString();
     }
     public void updateState(String state) {
         repository.updateState(state);
     }
     public void close() throws IOException {
         repository.close();
+    }
+
+    public void addComment(String id, String comment) {
+        repository.addComment(id, comment);
     }
 }
