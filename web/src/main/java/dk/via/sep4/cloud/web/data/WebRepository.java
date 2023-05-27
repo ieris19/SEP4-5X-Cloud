@@ -44,10 +44,6 @@ public class WebRepository implements Closeable {
         return repository.getLimits().toJSON().toString();
     }
 
-    public void insertLimits(SensorLimits limits) {
-        repository.insertLimits(limits);
-    }
-
     public void updateLimits(String minTemp, String maxTemp, String minHumidity, String maxHumidity, String maxCO2) {
         repository.updateLimits(minTemp, maxTemp, minHumidity, maxHumidity, maxCO2);
     }

@@ -46,6 +46,22 @@ public class MongoRepository implements DataRepository {
         logger.info("Successfully established a connection to MongoDB");
     }
 
+    void initUniqueObjects()
+    {
+        Document filter = new Document("type", "limit values");
+        FindIterable<Document> dbResult = extras.find(filter);
+        if (dbResult.first() == null) {
+            SensorLimits limits = new SensorLimits(10, 35, 20, 80, 3000);
+            extras.insertOne(limits.toBSON());
+        }
+        filter = new Document("type", "state");
+        dbResult = extras.find(filter);
+        if (dbResult.first() == null) {
+            SensorState state = new SensorState("OFF");
+            extras.insertOne(state.toBSON());
+        }
+    }
+
     void clearEntireDatabase() {
        db.drop();
     }
@@ -74,7 +90,8 @@ public class MongoRepository implements DataRepository {
     }
 
     @Override
-    public void insertLimits(SensorLimits limits) {
+    public void insertLimits(String minTemperature, String maxTemperature, String minHumidity, String maxHumidity, String maxCo2) {
+        SensorLimits limits = new SensorLimits(Integer.valueOf(minTemperature), Integer.valueOf(maxTemperature), Integer.valueOf(minHumidity), Integer.valueOf(maxHumidity), Integer.valueOf(maxCo2));
         extras.insertOne(limits.toBSON());
     }
 

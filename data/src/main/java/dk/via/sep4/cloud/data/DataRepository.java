@@ -33,9 +33,13 @@ public interface DataRepository extends Closeable {
     void addComment(String id, String comment);
     /**
      * This method is used to insert the sensor limits object into the database.
-     * @param limits the sensor limits to be inserted.
+     * @param minTemp the minimum temperature.
+     * @param maxTemp the maximum temperature.
+     * @param minHumidity the minimum humidity.
+     * @param maxHumidity the maximum humidity.
+     * @param maxCO2 the maximum CO2.
      */
-    void insertLimits(SensorLimits limits);
+    void insertLimits(String minTemp, String maxTemp, String minHumidity, String maxHumidity, String maxCO2);
 
     /**
      * This method is used to update the sensor limits in the database.
