@@ -35,7 +35,7 @@ public class SensorLimits {
         this.maxCo2 = dataJson.getInt("maxCo2");
     }
 
-    public Document toJSON() {
+    public Document toBSON() {
         Document limitsDocument = new Document("type", "limit values")
                 .append("minTemperature", this.minTemperature)
                 .append("maxTemperature", this.maxTemperature)
@@ -43,5 +43,17 @@ public class SensorLimits {
                 .append("maxHumidity", this.maxHumidity)
                 .append("maxCo2", this.maxCo2);
         return limitsDocument;
+    }
+
+    public JSONObject toJSON() {
+        JSONObject object=new JSONObject();
+
+        object.put("minTemperature", this.minTemperature);
+        object.put("maxTemperature", this.maxTemperature);
+        object.put("minHumidity", this.minHumidity);
+        object.put("maxHumidity", this.maxHumidity);
+        object.put("maxCo2", this.maxCo2);
+
+        return object;
     }
 }
