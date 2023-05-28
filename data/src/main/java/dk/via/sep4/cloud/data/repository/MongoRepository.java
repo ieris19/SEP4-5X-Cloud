@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * This class is used to implement the DataRepository interface.
@@ -38,16 +37,17 @@ public class MongoRepository implements DataRepository {
         }
 
     }
+
     void init(String connectionString, String databaseName) {
         client = MongoClients.create(connectionString);
         db = client.getDatabase(databaseName);
         this.readings = db.getCollection("READINGS");
         this.extras = db.getCollection("EXTRAS");
         logger.info("Successfully established a connection to MongoDB");
+        initUniqueObjects();
     }
 
-    void initUniqueObjects()
-    {
+    void initUniqueObjects() {
         Document filter = new Document("type", "limit values");
         FindIterable<Document> dbResult = extras.find(filter);
         if (dbResult.first() == null) {
@@ -57,13 +57,13 @@ public class MongoRepository implements DataRepository {
         filter = new Document("type", "state");
         dbResult = extras.find(filter);
         if (dbResult.first() == null) {
-            SensorState state = new SensorState("OFF");
+            SensorState state = new SensorState(false);
             extras.insertOne(state.toBSON());
         }
     }
 
     void clearEntireDatabase() {
-       db.drop();
+        db.drop();
     }
 
     @Override
