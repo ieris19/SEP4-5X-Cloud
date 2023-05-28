@@ -13,10 +13,9 @@ public class HttpTestClient {
         baseURL = url;
     }
 
-    public void testRequest(String endpoint, String method, String body) {
+    public HttpResponse<String> testRequest(String endpoint, String method, String body) {
         HttpRequest request = buildRequest(endpoint, method, body);
-        HttpResponse<String> response = makeRequest(request);
-        assert response.statusCode() == 200;
+        return makeRequest(request);
     }
 
     private HttpResponse<String> makeRequest(HttpRequest request) {
