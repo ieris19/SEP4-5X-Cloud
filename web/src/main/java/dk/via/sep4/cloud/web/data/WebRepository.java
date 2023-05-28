@@ -30,7 +30,6 @@ public class WebRepository implements Closeable {
         for (SensorReading reading : readings) {
             array.put(reading.toJSON());
         }
-
         return array.toString();
     }
 

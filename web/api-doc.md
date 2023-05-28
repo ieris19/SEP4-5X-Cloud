@@ -14,6 +14,7 @@ This endpoint returns the sensor readings for the given date.
 The readings are provided in the following JSON format (order not-guaranteed)
 ```json
 {
+  "id": "ID",
   "code": 11,
   "temperature": 2.2,
   "co2": 33,
