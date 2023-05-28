@@ -45,14 +45,14 @@ public class WebRepository implements Closeable {
     }
 
     public void updateLimits(String minTemp, String maxTemp, String minHumidity, String maxHumidity, String maxCO2) {
-        repository.updateLimits(minTemp, maxTemp, minHumidity, maxHumidity, maxCO2);
+        repository.updateLimits(new SensorLimits(Integer.valueOf(minTemp), Integer.valueOf(maxTemp), Integer.valueOf(minHumidity), Integer.valueOf(maxHumidity), Integer.valueOf(maxCO2)));
     }
 
     public String getState() {
         return repository.getState().toJSON().toString();
     }
     public void updateState(String state) {
-        repository.updateState(state);
+        repository.updateState(new SensorState(Boolean.valueOf(state)));
     }
     public void close() throws IOException {
         repository.close();
