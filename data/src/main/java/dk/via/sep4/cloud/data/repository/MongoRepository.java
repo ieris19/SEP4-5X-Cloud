@@ -52,7 +52,7 @@ public class MongoRepository implements DataRepository {
         FindIterable<Document> dbResult = extras.find(filter);
         if (dbResult.first() == null) {
             SensorLimits limits = new SensorLimits(10, 35, 20, 80, 3000);
-            extras.insertOne(limits.toBSON());
+            insertLimits(limits);
         }
         filter = new Document("type", "state");
         dbResult = extras.find(filter);
@@ -90,8 +90,7 @@ public class MongoRepository implements DataRepository {
     }
 
     @Override
-    public void insertLimits(String minTemperature, String maxTemperature, String minHumidity, String maxHumidity, String maxCo2) {
-        SensorLimits limits = new SensorLimits(Integer.valueOf(minTemperature), Integer.valueOf(maxTemperature), Integer.valueOf(minHumidity), Integer.valueOf(maxHumidity), Integer.valueOf(maxCo2));
+    public void insertLimits(SensorLimits limits) {
         extras.insertOne(limits.toBSON());
     }
 
@@ -112,10 +111,8 @@ public class MongoRepository implements DataRepository {
     }
 
     @Override
-    public void updateLimits(String minTemperature, String maxTemperature, String minHumidity, String maxHumidity, String maxCo2) {
+    public void updateLimits(SensorLimits limits) {
         Document filter = new Document("type", "limit values");
-
-        SensorLimits limits = new SensorLimits(Integer.valueOf(minTemperature), Integer.valueOf(maxTemperature), Integer.valueOf(minHumidity), Integer.valueOf(maxHumidity), Integer.valueOf(maxCo2));
 
         extras.findOneAndDelete(filter);
         extras.insertOne(limits.toBSON());
@@ -136,13 +133,11 @@ public class MongoRepository implements DataRepository {
     }
 
     @Override
-    public void updateState(String state) {
+    public void updateState(SensorState state) {
         Document filter = new Document("type", "state");
 
-        SensorState stateObject = new SensorState(Boolean.valueOf(state));
-
         extras.findOneAndDelete(filter);
-        extras.insertOne(stateObject.toBSON());
+        extras.insertOne(state.toBSON());
     }
 
     @Override
