@@ -148,5 +148,10 @@ public class WebsocketHandler implements LorawanEventHandler {
             log.trace("Sending limits to server: {}", payload.toString(4));
             WebsocketHandler.this.webSocket.sendText(payload.toString(), true);
         }
+
+        public void toggleClimateControl(JSONObject payload){
+            log.trace("Toggle Climate Control: {}", payload.toString(4));
+            WebsocketHandler.this.webSocket.sendText(payload.toString(), true);
+        }
     }
 }
