@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.sql.Timestamp;
 
 /**
  * This class is used as a database access for the web-api that returns JSON objects instead of implemented Java class objects.
@@ -27,9 +26,8 @@ public class WebRepository implements Closeable {
 
     public String getReadings(String date) {
         SensorReading[] readings = repository.getReadings(date);
-        JSONArray array=new JSONArray();
-        for (SensorReading reading:readings)
-        {
+        JSONArray array = new JSONArray();
+        for (SensorReading reading : readings) {
             array.put(reading.toJSON());
         }
 
@@ -44,21 +42,26 @@ public class WebRepository implements Closeable {
         return repository.getLimits().toJSON().toString();
     }
 
-    public void updateLimits(String minTemp, String maxTemp, String minHumidity, String maxHumidity, String maxCO2) {
-        repository.updateLimits(new SensorLimits(Integer.valueOf(minTemp), Integer.valueOf(maxTemp), Integer.valueOf(minHumidity), Integer.valueOf(maxHumidity), Integer.valueOf(maxCO2)));
+    public void updateLimits(SensorLimits newLimits) {
+        repository.updateLimits(newLimits);
     }
 
     public String getState() {
         return repository.getState().toJSON().toString();
     }
+
     public void updateState(String state) {
         repository.updateState(new SensorState(Boolean.valueOf(state)));
     }
+
     public void close() throws IOException {
         repository.close();
     }
 
-    public void addComment(String id, String comment) {
+    public void addComment(String jsonString) {
+        JSONObject jsonBody = new JSONObject(jsonString);
+        String id = jsonBody.getString("id");
+        String comment = jsonBody.getString("comment");
         repository.addComment(id, comment);
     }
 }

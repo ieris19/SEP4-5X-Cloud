@@ -1,8 +1,9 @@
 package dk.via.sep4.cloud.web.service;
 
+import dk.via.sep4.cloud.data.dto.SensorLimits;
 import dk.via.sep4.cloud.web.data.WebRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,12 +13,11 @@ import org.springframework.web.bind.annotation.*;
  * It gets the data from the database and returns it as JSON objects upon request.
  * ResponseEntity is used to return the data as an HTTP response.
  */
+@Slf4j
 @RestController
 @RequestMapping()
 public class WebController {
     private final WebRepository repository;
-    private final Logger logger = LoggerFactory.getLogger(WebController.class);
-
     @Autowired
     public WebController(WebRepository webRepository) {
         repository = webRepository;
@@ -41,10 +41,10 @@ public class WebController {
         }
     }
 
-    @PatchMapping("/limits")
-    public ResponseEntity<String> updateLimits(@RequestBody String minTemp, @RequestBody String maxTemp, @RequestBody String minHumidity, @RequestBody String maxHumidity, @RequestBody String maxCO2) {
+    @PutMapping("/limits")
+    public ResponseEntity<String> updateLimits(@RequestBody String jsonLimits) {
         try {
-            repository.updateLimits(minTemp, maxTemp, minHumidity, maxHumidity, maxCO2);
+            repository.updateLimits(new SensorLimits(jsonLimits));
             return ResponseEntity.ok("Limits updated successfully!");
         } catch (Exception e) {
             return handleException(e);
@@ -60,7 +60,7 @@ public class WebController {
         }
     }
 
-    @PatchMapping("/state")
+    @PutMapping("/state")
     public ResponseEntity<String> updateState(@RequestBody String state) {
         try {
             repository.updateState(state);
@@ -69,10 +69,11 @@ public class WebController {
             return handleException(e);
         }
     }
-    @PatchMapping("/comment")
-    public ResponseEntity<String> addComment(@RequestBody String id, @RequestBody String comment) {
+
+    @PutMapping("/comment")
+    public ResponseEntity<String> addComment(@RequestBody String body) {
         try {
-            repository.addComment(id, comment);
+            repository.addComment(body);
             return ResponseEntity.ok("Comment added successfully!");
         } catch (Exception e) {
             return handleException(e);
@@ -80,7 +81,11 @@ public class WebController {
     }
 
     private ResponseEntity<String> handleException(Exception e) {
-        logger.error("An internal error has occurred serving a request!", e);
+        Class<?> exceptionClass = e.getClass();
+        if (exceptionClass.isInstance(JSONException.class)) {
+            return ResponseEntity.badRequest().body("Cannot parse JSON" + e.getMessage());
+        }
+        log.error("An internal error has occurred serving a request!", e);
         Class<? extends Exception> errorClass = e.getClass();
         StringBuilder errorMessage = new StringBuilder("An internal error has occurred: ");
         errorMessage.append(errorClass.getSimpleName());
