@@ -65,13 +65,34 @@ public class DataHandler {
         if (limits == null) {
             return null;
         }
+        String climateState = "0";
+        if(repository.getState().isOn()){
+            climateState = "1";
+        }
         log.trace("Limits: {}", limits);
-        StringBuilder hexData = new StringBuilder().append("00")
+        StringBuilder hexData = new StringBuilder().append("0")
+                .append(climateState)
                 .append(String.format("%02X", limits.getMaxTemperature()))
                 .append(String.format("%02X", limits.getMinTemperature()))
                 .append(String.format("%02X", limits.getMaxHumidity()))
                 .append(String.format("%02X", limits.getMinHumidity()))
                 .append(String.format("%04X", limits.getMaxCo2()));
+
+        log.trace("Raw Payload: {}", hexData);
+        int portNumber = jsonData.getInt("port");
+        String eui = jsonData.getString("EUI");
+        JSONObject payload = new JSONObject();
+        payload.put("cmd", "tx");
+        payload.put("EUI", eui);
+        payload.put("port", portNumber);
+        payload.put("confirmed", true);
+        payload.put("data", hexData);
+
+        return payload;
+    }
+
+    public JSONObject createClimateTogglePayload(JSONObject jsonData) {
+        StringBuilder hexData = new StringBuilder().append("00");
 
         log.trace("Raw Payload: {}", hexData);
         int portNumber = jsonData.getInt("port");

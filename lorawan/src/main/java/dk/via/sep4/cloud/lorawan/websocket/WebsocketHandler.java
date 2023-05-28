@@ -88,6 +88,7 @@ public class WebsocketHandler implements LorawanEventHandler {
         }
     }
 
+
     /**
      * This class is used to listen for messages from the lorawan server.
      * The methods in this class are invoked by the WebSocket when a message is received.
@@ -138,6 +139,8 @@ public class WebsocketHandler implements LorawanEventHandler {
             }
             return CompletableFuture.completedFuture("Message processed").thenAccept(log::trace);
         }
+
+
     }
 
     /**
@@ -146,6 +149,11 @@ public class WebsocketHandler implements LorawanEventHandler {
     private class LorawanSocketDispatcher {
         public void sendText(JSONObject payload) {
             log.trace("Sending limits to server: {}", payload.toString(4));
+            WebsocketHandler.this.webSocket.sendText(payload.toString(), true);
+        }
+
+        public void toggleClimateControl(JSONObject payload){
+            log.trace("Toggle Climate Control: {}", payload.toString(4));
             WebsocketHandler.this.webSocket.sendText(payload.toString(), true);
         }
     }

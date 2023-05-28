@@ -75,6 +75,7 @@ public class WebController {
         }
     }
 
+
     private ResponseEntity<String> handleException(Exception e) {
         logger.error("An internal error has occurred serving a request!", e);
         Class<? extends Exception> errorClass = e.getClass();
