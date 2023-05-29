@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 /**
  * This class is used to create a REST API for the web application.
  * It gets the data from the database and returns it as JSON objects upon request.
@@ -18,13 +20,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping()
 public class WebController {
     private final WebRepository repository;
+
     @Autowired
     public WebController(WebRepository webRepository) {
         repository = webRepository;
     }
 
     @GetMapping("/readings")
-    public ResponseEntity<String> getReadings(@RequestParam String date) {
+    public ResponseEntity<String> getReadings(@RequestParam(required = false) String requestDate) {
+        String date = requestDate != null ? requestDate : LocalDate.now().toString();
         try {
             return ResponseEntity.ok(repository.getReadings(date));
         } catch (Exception e) {
@@ -44,7 +48,7 @@ public class WebController {
     @PutMapping("/limits")
     public ResponseEntity<String> updateLimits(@RequestBody String jsonLimits) {
         try {
-            repository.updateLimits(new SensorLimits(jsonLimits));
+            repository.updateLimits(jsonLimits);
             return ResponseEntity.ok("Limits updated successfully!");
         } catch (Exception e) {
             return handleException(e);

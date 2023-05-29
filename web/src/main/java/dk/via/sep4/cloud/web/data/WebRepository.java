@@ -1,23 +1,29 @@
 package dk.via.sep4.cloud.web.data;
 
 import dk.via.sep4.cloud.data.DataRepository;
+import dk.via.sep4.cloud.data.dto.ControlState;
 import dk.via.sep4.cloud.data.dto.SensorLimits;
 import dk.via.sep4.cloud.data.dto.SensorReading;
-import dk.via.sep4.cloud.data.dto.SensorState;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 import java.io.Closeable;
 import java.io.IOException;
 
+import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_SINGLETON;
+
 /**
- * This class is used as a database access for the web-api that returns JSON objects instead of implemented Java class objects.
+ * This class is used as database access wrapper.
+ * It converts the data from the DataRepository into JSON for the API
+ * and turns JSON from the API into data for the DataRepository.
  */
 @Repository
+@Scope(scopeName = SCOPE_SINGLETON)
 public class WebRepository implements Closeable {
-    private DataRepository repository;
+    private final DataRepository repository;
 
     @Autowired
     public WebRepository(DataRepository repository) {
@@ -33,16 +39,12 @@ public class WebRepository implements Closeable {
         return array.toString();
     }
 
-    public void insertReading(SensorReading reading) {
-        repository.insertReading(reading);
-    }
-
     public String getLimits() {
         return repository.getLimits().toJSON().toString();
     }
 
-    public void updateLimits(SensorLimits newLimits) {
-        repository.updateLimits(newLimits);
+    public void updateLimits(String jsonLimits) {
+        repository.updateLimits(SensorLimits.fromJson(jsonLimits));
     }
 
     public String getState() {
@@ -50,7 +52,7 @@ public class WebRepository implements Closeable {
     }
 
     public void updateState(String state) {
-        repository.updateState(new SensorState(Boolean.valueOf(state)));
+        repository.updateState(new ControlState(Boolean.parseBoolean(state)));
     }
 
     public void close() throws IOException {

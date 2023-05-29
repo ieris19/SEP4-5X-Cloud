@@ -1,12 +1,13 @@
 package dk.via.sep4.cloud.lorawan.websocket;
 
 import dk.via.sep4.cloud.data.dto.SensorReading;
-import lombok.Getter;
+import dk.via.sep4.cloud.lorawan.websocket.utils.DataHandler;
+import dk.via.sep4.cloud.lorawan.websocket.utils.WebSocketFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import java.net.URI;
-import java.net.http.HttpClient;
 import java.net.http.WebSocket;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -16,22 +17,20 @@ import java.util.concurrent.CompletionStage;
  * It implements the LorawanEventHandler interface to handle the events received from the server.
  */
 @Slf4j
+@Component
 public class WebsocketHandler implements LorawanEventHandler {
-    @Getter
-    private boolean isOpen;
-    private final URI targetURI;
-    private WebSocket webSocket;
     private final LorawanSocketListener listener;
     private final LorawanSocketDispatcher dispatcher;
     private final DataHandler dataHandler;
+    private boolean isOpen;
+    private WebSocket webSocket;
 
-    public WebsocketHandler(URI lorawanURI, DataHandler handler) {
+    public WebsocketHandler(@Autowired DataHandler handler) {
         this.isOpen = false;
-        this.targetURI = lorawanURI;
         this.listener = new LorawanSocketListener();
         this.dispatcher = new LorawanSocketDispatcher();
         this.dataHandler = handler;
-        refresh();
+        onRefresh();
     }
 
     @Override
@@ -77,15 +76,17 @@ public class WebsocketHandler implements LorawanEventHandler {
         }
     }
 
-    public void refresh() {
+    @Override
+    public void onRefresh() {
         if (!isOpen) {
             log.info("Refreshing WebSocket connection");
-            this.webSocket =
-                    HttpClient.newHttpClient()
-                            .newWebSocketBuilder()
-                            .buildAsync(targetURI, listener)
-                            .join();
+            this.webSocket = WebSocketFactory.createWebSocket(this.listener);
         }
+    }
+
+    @Override
+    public boolean isListening() {
+        return isOpen;
     }
 
     /**
@@ -147,11 +148,6 @@ public class WebsocketHandler implements LorawanEventHandler {
     private class LorawanSocketDispatcher {
         public void sendText(JSONObject payload) {
             log.trace("Sending limits to server: {}", payload.toString(4));
-            WebsocketHandler.this.webSocket.sendText(payload.toString(), true);
-        }
-
-        public void toggleClimateControl(JSONObject payload){
-            log.trace("Toggle Climate Control: {}", payload.toString(4));
             WebsocketHandler.this.webSocket.sendText(payload.toString(), true);
         }
     }
