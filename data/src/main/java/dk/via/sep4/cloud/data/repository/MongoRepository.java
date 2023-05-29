@@ -10,6 +10,7 @@ import dk.via.sep4.cloud.data.dto.SensorReading;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.BsonValue;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -29,7 +30,6 @@ public class MongoRepository implements DataRepository {
     public MongoRepository() {
         try (FileProperties secrets = FileProperties.getInstance("secrets")) {
             String connectionURL = secrets.getProperty("mongodb.url");
-            log.debug(connectionURL);
             init(connectionURL, "SEP4");
         } catch (IllegalArgumentException e) {
             throw new IllegalStateException("At least one of the accessed properties in secrets.properties doesn't exist", e);
@@ -105,24 +105,27 @@ public class MongoRepository implements DataRepository {
 
     @Override
     public DataOperationResult addComment(String id, String comment) {
-        Document filter = new Document("_id", id);
+        Document filter = new Document("_id", new Document("$eq", new ObjectId(id)));
         Document update = new Document("$set", new Document("comment", comment));
+        log.debug(update.toJson());
         return MongoOperationResult.from(readings.updateOne(filter, update));
     }
 
     @Override
     public DataOperationResult updateLimits(SensorLimits limits) {
-        Document filter = new Document("type", "limit values");
+        Document filter = new Document("type", new Document("$eq", "limit values"));
 
         Document update = new Document("$set", limits.toBSON());
+        log.debug(update.toJson());
         return MongoOperationResult.from(extras.updateOne(filter, update));
     }
 
     @Override
     public DataOperationResult updateState(ControlState state) {
-        Document filter = new Document("type", "state");
+        Document filter = new Document("type", new Document("$eq", "state"));
 
         Document update = new Document("$set", state.toBSON());
+        log.debug(update.toJson());
         return MongoOperationResult.from(extras.updateOne(filter, update));
     }
 
