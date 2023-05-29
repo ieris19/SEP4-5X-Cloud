@@ -35,7 +35,7 @@ public record SensorReading(String id, boolean pir, double temperature, int humi
         co2 = dataJson.getInt("co2");
         sound = dataJson.getInt("sound");
         light = dataJson.getInt("light");
-        errorCode = dataJson.getString("code");
+        errorCode = dataJson.get("code").toString();
         try {
             comment = dataJson.getString("comment");
         } catch (JSONException e) {
@@ -56,7 +56,7 @@ public record SensorReading(String id, boolean pir, double temperature, int humi
     }
 
     public Document toBSON() {
-        Document readingDocument = new Document("pir", this.pir)
+        return new Document("pir", this.pir)
                 .append("temperature", this.temperature)
                 .append("humidity", this.humidity)
                 .append("co2", this.co2)
@@ -65,7 +65,6 @@ public record SensorReading(String id, boolean pir, double temperature, int humi
                 .append("code", this.code)
                 .append("time", this.timeReceived)
                 .append("comment", this.comment);
-        return readingDocument;
     }
 
     public JSONObject toJSON() {
