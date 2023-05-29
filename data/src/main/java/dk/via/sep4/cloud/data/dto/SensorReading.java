@@ -15,7 +15,8 @@ import java.time.temporal.ChronoField;
  * This class is used to store the sensor readings data in a Java environment.
  */
 public record SensorReading(String id, boolean pir, double temperature, int humidity, int co2, int sound, int light,
-                            String code, Timestamp timeReceived, String comment) {
+                            String code, Timestamp timeReceived, String comment)
+implements JsonTransformable {
     public SensorReading(boolean pir, double temperature, int humidity, int co2, int sound, int light,
                          String code, Timestamp timeReceived) {
         this("", pir, temperature, humidity, co2, sound, light, code, timeReceived, "");
