@@ -3,10 +3,12 @@ package dk.via.sep4.cloud.data.repository;
 import com.ieris19.lib.files.config.FileProperties;
 import com.mongodb.client.*;
 import com.mongodb.client.result.InsertOneResult;
+import com.mongodb.client.result.UpdateResult;
 import dk.via.sep4.cloud.data.dto.ControlState;
 import dk.via.sep4.cloud.data.dto.SensorLimits;
 import dk.via.sep4.cloud.data.dto.SensorReading;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.BsonValue;
 import org.bson.Document;
 
 import java.io.IOException;
@@ -52,24 +54,15 @@ public class MongoRepository implements DataRepository {
         if (dbResult.first() == null) {
             log.warn("No limits found in database, inserting default values");
             SensorLimits limits = new SensorLimits(10, 35, 20, 80, 3000);
-            extras.insertOne(limits.toBSON());
+            assert extras.insertOne(limits.toBSON()).wasAcknowledged() : "Unacknowledged insert of default limits";
         }
         filter = new Document("type", "state");
         dbResult = extras.find(filter);
         if (dbResult.first() == null) {
             log.warn("No control state found in database, inserting default values");
             ControlState state = new ControlState(false);
-            extras.insertOne(state.toBSON());
+            assert extras.insertOne(state.toBSON()).wasAcknowledged() : "Unacknowledged insert of default control state";
         }
-    }
-
-    void clearEntireDatabase() {
-        db.drop();
-    }
-
-    @Override
-    public void insertReading(SensorReading reading) {
-        readings.insertOne(reading.toBSON());
     }
 
     @Override
@@ -97,21 +90,6 @@ public class MongoRepository implements DataRepository {
     }
 
     @Override
-    public void addComment(String id, String comment) {
-        Document filter = new Document("_id", id);
-        Document update = new Document("$set", new Document("comment", comment));
-        readings.updateOne(filter, update);
-    }
-
-    @Override
-    public void updateLimits(SensorLimits limits) {
-        Document filter = new Document("type", "limit values");
-
-        Document update = new Document("$set", limits.toBSON());
-        extras.updateOne(filter, update);
-    }
-
-    @Override
     public ControlState getState() {
         Document filter = new Document("type", "state");
         FindIterable<Document> dbResult = extras.find(filter);
@@ -121,11 +99,31 @@ public class MongoRepository implements DataRepository {
     }
 
     @Override
-    public void updateState(ControlState state) {
+    public DataOperationResult insertReading(SensorReading reading) {
+        return MongoOperationResult.from(readings.insertOne(reading.toBSON()));
+    }
+
+    @Override
+    public DataOperationResult addComment(String id, String comment) {
+        Document filter = new Document("_id", id);
+        Document update = new Document("$set", new Document("comment", comment));
+        return MongoOperationResult.from(readings.updateOne(filter, update));
+    }
+
+    @Override
+    public DataOperationResult updateLimits(SensorLimits limits) {
+        Document filter = new Document("type", "limit values");
+
+        Document update = new Document("$set", limits.toBSON());
+        return MongoOperationResult.from(extras.updateOne(filter, update));
+    }
+
+    @Override
+    public DataOperationResult updateState(ControlState state) {
         Document filter = new Document("type", "state");
 
         Document update = new Document("$set", state.toBSON());
-        extras.updateOne(filter, update);
+        return MongoOperationResult.from(extras.updateOne(filter, update));
     }
 
     @Override
