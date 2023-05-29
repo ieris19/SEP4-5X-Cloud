@@ -5,11 +5,21 @@ The webapi is a restful API that provides access to the IoT device's data.
 The API is hosted in Google Cloud and powered by Spring Boot. The API returns the following error codes on all
 endpoints:
 
+## All Endpoints Status Codes
+
+The following status codes are configured for all endpoints:
 - **Status Code: 404**: Not Found, the requested URL doesn't correspond to any endpoint
 - **Status Code: 400**: Bad Request, the request exists, but something about it is invalid. If the error is known,
   details are returned in the response body
 - **Status Code: 500**: Server Error, the server encountered an error while processing the request, the error is
   returned in the response body
+
+## PUT Endpoints Status Codes
+
+Put methods need to be able to report on the status of the operation, so they return the following status codes:
+- **Status Code: 200**: OK, the operation was successfully completed as intended
+- **Status Code: 202**: Accepted, the operation was accepted, but it didn't affect the state of the system
+- **Status Code: 500**: Server Error, the server did NOT acknowledge the operation
 
 ## Sensor Readings Endpoint
 
@@ -54,10 +64,6 @@ the request body
 }
 ```
 
-It can return the following status codes:
-
-- **Status Code: 200**: OK, a success message is returned in the response body
-
 ## Sensor Limits Endpoint
 
 ### **GET** /limits
@@ -91,11 +97,6 @@ This endpoint updates the sensor limits. The limits need to be provided in the f
   "maxCo2": 44
 }
 ```
-
-It can return the following status codes:
-
-- **Status Code: 200**: OK, a success message is returned in the response body
-
 ## Sensor Status Endpoint
 
 ### **GET** /state
@@ -122,7 +123,3 @@ request body
   "isOn": false
 }
 ```
-
-It can return the following status codes:
-
-- **Status Code: 200**: OK, a success message is returned in the response body

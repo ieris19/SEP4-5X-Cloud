@@ -1,6 +1,6 @@
 package dk.via.sep4.cloud.web.service;
 
-import dk.via.sep4.cloud.data.dto.SensorLimits;
+import dk.via.sep4.cloud.web.data.DataResultStatus;
 import dk.via.sep4.cloud.web.data.WebRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
@@ -36,6 +36,20 @@ public class WebController {
         }
     }
 
+    @PutMapping("/comment")
+    public ResponseEntity<String> addComment(@RequestBody String body) {
+        try {
+            DataResultStatus status = repository.addComment(body);
+            return switch (status) {
+                case OK -> ResponseEntity.ok("Comment added successfully!");
+                case NO_DATA_AFFECTED -> ResponseEntity.accepted().body("No data affected!");
+                case NOT_ACKNOWLEDGED -> ResponseEntity.internalServerError().body("Comment not acknowledged!");
+            };
+        } catch (Exception e) {
+            return handleException(e);
+        }
+    }
+
     @GetMapping("/limits")
     public ResponseEntity<String> getLimits() {
         try {
@@ -48,8 +62,12 @@ public class WebController {
     @PutMapping("/limits")
     public ResponseEntity<String> updateLimits(@RequestBody String jsonLimits) {
         try {
-            repository.updateLimits(jsonLimits);
-            return ResponseEntity.ok("Limits updated successfully!");
+            DataResultStatus status = repository.updateLimits(jsonLimits);
+            return switch (status) {
+                case OK -> ResponseEntity.ok("Limits updated successfully!");
+                case NO_DATA_AFFECTED -> ResponseEntity.accepted().body("No data affected!");
+                case NOT_ACKNOWLEDGED -> ResponseEntity.internalServerError().body("Limits not acknowledged!");
+            };
         } catch (Exception e) {
             return handleException(e);
         }
@@ -67,18 +85,12 @@ public class WebController {
     @PutMapping("/state")
     public ResponseEntity<String> updateState(@RequestBody String state) {
         try {
-            repository.updateState(state);
-            return ResponseEntity.ok("State updated successfully!");
-        } catch (Exception e) {
-            return handleException(e);
-        }
-    }
-
-    @PutMapping("/comment")
-    public ResponseEntity<String> addComment(@RequestBody String body) {
-        try {
-            repository.addComment(body);
-            return ResponseEntity.ok("Comment added successfully!");
+            DataResultStatus status = repository.updateState(state);;
+            return switch (status) {
+                case OK -> ResponseEntity.ok("State updated successfully!");
+                case NO_DATA_AFFECTED -> ResponseEntity.accepted().body("No data affected!");
+                case NOT_ACKNOWLEDGED -> ResponseEntity.internalServerError().body("State change not acknowledged!");
+            };
         } catch (Exception e) {
             return handleException(e);
         }

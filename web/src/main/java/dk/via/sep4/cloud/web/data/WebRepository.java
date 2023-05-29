@@ -1,6 +1,7 @@
 package dk.via.sep4.cloud.web.data;
 
-import dk.via.sep4.cloud.data.DataRepository;
+import dk.via.sep4.cloud.data.repository.DataOperationResult;
+import dk.via.sep4.cloud.data.repository.DataRepository;
 import dk.via.sep4.cloud.data.dto.ControlState;
 import dk.via.sep4.cloud.data.dto.SensorLimits;
 import dk.via.sep4.cloud.data.dto.SensorReading;
@@ -43,26 +44,39 @@ public class WebRepository implements Closeable {
         return repository.getLimits().toJSON().toString();
     }
 
-    public void updateLimits(String jsonLimits) {
-        repository.updateLimits(SensorLimits.fromJson(jsonLimits));
-    }
-
     public String getState() {
         return repository.getState().toJSON().toString();
     }
 
-    public void updateState(String state) {
-        repository.updateState(new ControlState(Boolean.parseBoolean(state)));
+    public DataResultStatus addComment(String jsonString) {
+        JSONObject jsonBody = new JSONObject(jsonString);
+        String id = jsonBody.getString("id");
+        String comment = jsonBody.getString("comment");
+        DataOperationResult result = repository.addComment(id, comment);
+        return updateResultStatus(result);
+    }
+
+    public DataResultStatus updateLimits(String jsonLimits) {
+        DataOperationResult result = repository.updateLimits(SensorLimits.fromJson(jsonLimits));
+        return updateResultStatus(result);
+    }
+
+    public DataResultStatus updateState(String stateJson) {
+        DataOperationResult result = repository.updateState(ControlState.fromJson(stateJson));
+        return updateResultStatus(result);
+    }
+
+    private DataResultStatus updateResultStatus(DataOperationResult result) {
+        if (!result.isSuccessful()) {
+            return DataResultStatus.NOT_ACKNOWLEDGED;
+        }
+        if (result.getAffectedCount() < 1) {
+            return DataResultStatus.NO_DATA_AFFECTED;
+        }
+        return DataResultStatus.OK;
     }
 
     public void close() throws IOException {
         repository.close();
-    }
-
-    public void addComment(String jsonString) {
-        JSONObject jsonBody = new JSONObject(jsonString);
-        String id = jsonBody.getString("id");
-        String comment = jsonBody.getString("comment");
-        repository.addComment(id, comment);
     }
 }
