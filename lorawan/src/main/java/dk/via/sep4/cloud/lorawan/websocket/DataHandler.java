@@ -26,7 +26,7 @@ public class DataHandler {
 
     public SensorReading parsePayload(JSONObject jsonData) {
         String hexData = jsonData.getString("data");
-        log.trace("Received payload: {}", hexData);
+        log.trace("Up-link payload: {}", hexData);
 
         String looseBitsHex, temperatureHex, humidityHex, co2Hex, soundHex, lightHex;
         try {
@@ -65,15 +65,19 @@ public class DataHandler {
         if (limits == null) {
             return null;
         }
+        String climateState = repository.getState().isOn() ? "1" : "0";
+        if(repository.getState().isOn()){
+            climateState = "1";
+        }
         log.trace("Limits: {}", limits);
-        StringBuilder hexData = new StringBuilder().append("00")
+        StringBuilder hexData = new StringBuilder()
+                .append(climateState).append("0")
                 .append(String.format("%02X", limits.getMaxTemperature()))
                 .append(String.format("%02X", limits.getMinTemperature()))
                 .append(String.format("%02X", limits.getMaxHumidity()))
                 .append(String.format("%02X", limits.getMinHumidity()))
                 .append(String.format("%04X", limits.getMaxCo2()));
-
-        log.trace("Raw Payload: {}", hexData);
+        log.trace("Down-link Payload: {}", hexData);
         int portNumber = jsonData.getInt("port");
         String eui = jsonData.getString("EUI");
         JSONObject payload = new JSONObject();
