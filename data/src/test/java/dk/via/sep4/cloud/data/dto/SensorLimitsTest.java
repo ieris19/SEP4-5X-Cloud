@@ -1,20 +1,14 @@
 package dk.via.sep4.cloud.data.dto;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-
-import java.sql.Timestamp;
+import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class SensorLimitsTest {
-    private static String dataJSON;
-    private static String[] webJSONPairs;
-    private static SensorLimits sampleReading;
-
-    @BeforeAll
-    static void setUp() {
+class SensorLimitsTest extends JsonDTOTestable<SensorLimits> {
+    @Override
+    @BeforeEach
+    void setUp() {
         dataJSON =
                 """
                    {
@@ -36,20 +30,6 @@ class SensorLimitsTest {
                 "\"maxHumidity\":60",
                 "\"maxCo2\":800",
         };
-        sampleReading = new SensorLimits(4500, 5000, 30, 60, 800);
-    }
-
-    @Test
-    void fromJson() {
-        SensorLimits reading = SensorLimits.fromJson(dataJSON);
-        assertEquals(sampleReading, reading);
-    }
-
-    @Test
-    void toJSON() {
-        String json = sampleReading.toJSON().toString();
-        for (String pair : webJSONPairs) {
-            assertTrue(json.contains(pair), "JSON does not contain " + pair);
-        }
+        sample = new SensorLimits(4500, 5000, 30, 60, 800);
     }
 }

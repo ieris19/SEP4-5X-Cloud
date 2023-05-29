@@ -1,6 +1,6 @@
 package dk.via.sep4.cloud.data.dto;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -11,15 +11,12 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * This class tests the SensorReading data transfer object.
  */
-class SensorReadingTest {
-    private static String dataJSON;
-    private static String[] webJSONPairs;
-    private static SensorReading sampleReading;
-    private static String legacyJSON;
-    private static SensorReading legacyReading;
+class SensorReadingTest extends JsonDTOTestable<SensorReading> {
+    private String legacyJSON;
+    private SensorReading legacyReading;
 
-    @BeforeAll
-    static void setUp() {
+    @BeforeEach
+    void setUp() {
         dataJSON =
                 """
                         {
@@ -50,7 +47,7 @@ class SensorReadingTest {
                 "\"pir\":true",
                 "\"time\":\"2023-05-29 17:11:32.517\""
         };
-        sampleReading = new SensorReading("6474c0a4c737a0417aefe675",
+        sample = new SensorReading("6474c0a4c737a0417aefe675",
                 true, 4240.5, 165, 42405, 42405, 2650, "100101",
                 Timestamp.valueOf("2023-05-29 17:11:32.517"), "");
         legacyJSON =
@@ -77,30 +74,15 @@ class SensorReadingTest {
     }
 
     @Test
-    void fromJson() {
-        SensorReading reading = SensorReading.fromJson(dataJSON);
-        assertEquals(sampleReading, reading);
-    }
-
-    @Test
     void fromLegacyJson() {
         SensorReading test = SensorReading.fromJson(legacyJSON);
         assertEquals(legacyReading, test);
     }
 
     @Test
-    void toJSON() {
-        String json = sampleReading.toJSON().toString();
-        for (String pair : webJSONPairs) {
-            assertTrue(json.contains(pair), "JSON does not contain " + pair);
-        }
-    }
-
-
-    @Test
     @Disabled
     void toBSON() {
         //TODO: Actually test BSON conversion
-        assertDoesNotThrow(() -> sampleReading.toBSON());
+        assertDoesNotThrow(() -> sample.toBSON());
     }
 }
