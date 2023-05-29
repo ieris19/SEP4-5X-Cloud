@@ -1,6 +1,5 @@
 package dk.via.sep4.cloud.web.service;
 
-import dk.via.sep4.cloud.data.dto.SensorLimits;
 import dk.via.sep4.cloud.web.data.WebRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;

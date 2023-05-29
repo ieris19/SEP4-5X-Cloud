@@ -1,6 +1,6 @@
 package dk.via.sep4.cloud.web.data;
 
-import dk.via.sep4.cloud.data.DataRepository;
+import dk.via.sep4.cloud.data.repository.DataRepository;
 import dk.via.sep4.cloud.data.dto.ControlState;
 import dk.via.sep4.cloud.data.dto.SensorLimits;
 import dk.via.sep4.cloud.data.dto.SensorReading;

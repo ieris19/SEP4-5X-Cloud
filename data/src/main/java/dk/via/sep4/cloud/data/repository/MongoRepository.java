@@ -2,7 +2,7 @@ package dk.via.sep4.cloud.data.repository;
 
 import com.ieris19.lib.files.config.FileProperties;
 import com.mongodb.client.*;
-import dk.via.sep4.cloud.data.DataRepository;
+import com.mongodb.client.result.InsertOneResult;
 import dk.via.sep4.cloud.data.dto.ControlState;
 import dk.via.sep4.cloud.data.dto.SensorLimits;
 import dk.via.sep4.cloud.data.dto.SensorReading;

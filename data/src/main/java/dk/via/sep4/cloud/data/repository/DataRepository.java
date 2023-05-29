@@ -1,4 +1,4 @@
-package dk.via.sep4.cloud.data;
+package dk.via.sep4.cloud.data.repository;
 
 import dk.via.sep4.cloud.data.dto.ControlState;
 import dk.via.sep4.cloud.data.dto.SensorLimits;
@@ -18,18 +18,25 @@ public interface DataRepository extends Closeable {
     SensorReading[] getReadings(String date);
 
     /**
-     * This method is used to insert a sensor reading object into the database.
-     *
-     * @param reading the sensor reading to be inserted.
-     */
-    void insertReading(SensorReading reading);
-
-    /**
      * This method is used to retrieve the sensor limits from the database.
      *
      * @return the sensor limits object.
      */
     SensorLimits getLimits();
+
+    /**
+     * This method is used to retrieve the sensor state from the database.
+     *
+     * @return the sensor state object.
+     */
+    ControlState getState();
+
+    /**
+     * This method is used to insert a sensor reading object into the database.
+     *
+     * @param reading the sensor reading to be inserted.
+     */
+    void insertReading(SensorReading reading);
 
     /**
      * This method is used to add a comment to a specified reading.
@@ -45,13 +52,6 @@ public interface DataRepository extends Closeable {
      * @param limits the sensor limits to be updated.
      */
     void updateLimits(SensorLimits limits);
-
-    /**
-     * This method is used to retrieve the sensor state from the database.
-     *
-     * @return the sensor state object.
-     */
-    ControlState getState();
 
     /**
      * This method is used to update the sensor state in the database.

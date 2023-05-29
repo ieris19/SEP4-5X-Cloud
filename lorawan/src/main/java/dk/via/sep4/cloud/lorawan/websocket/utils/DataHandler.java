@@ -1,6 +1,6 @@
 package dk.via.sep4.cloud.lorawan.websocket.utils;
 
-import dk.via.sep4.cloud.data.DataRepository;
+import dk.via.sep4.cloud.data.repository.DataRepository;
 import dk.via.sep4.cloud.data.dto.SensorLimits;
 import dk.via.sep4.cloud.data.dto.SensorReading;
 import lombok.extern.slf4j.Slf4j;
