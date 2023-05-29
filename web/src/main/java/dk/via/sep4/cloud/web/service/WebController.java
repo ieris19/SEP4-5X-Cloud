@@ -74,6 +74,15 @@ public class WebController {
             return handleException(e);
         }
     }
+    @PatchMapping("/comment")
+    public ResponseEntity<String> addComment(@RequestBody String id, @RequestBody String comment) {
+        try {
+            repository.addComment(id, comment);
+            return ResponseEntity.ok("Comment added successfully!");
+        } catch (Exception e) {
+            return handleException(e);
+        }
+    }
 
     private ResponseEntity<String> handleException(Exception e) {
         logger.error("An internal error has occurred serving a request!", e);
