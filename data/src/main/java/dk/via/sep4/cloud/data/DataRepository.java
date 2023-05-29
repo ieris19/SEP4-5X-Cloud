@@ -40,25 +40,11 @@ public interface DataRepository extends Closeable {
     void addComment(String id, String comment);
 
     /**
-     * This method is used to insert the sensor limits object into the database.
-     *
-     * @SensorLimits limits the sensor limits to be inserted.
-     */
-    void insertLimits(SensorLimits limits);
-
-    /**
      * This method is used to update the sensor limits in the database.
      *
      * @param limits the sensor limits to be updated.
      */
     void updateLimits(SensorLimits limits);
-
-    /**
-     * This method is used to retrieve the sensor state from the database.
-     *
-     * @param state the sensor state to be inserted.
-     */
-    void insertState(ControlState state);
 
     /**
      * This method is used to retrieve the sensor state from the database.

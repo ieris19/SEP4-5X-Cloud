@@ -52,7 +52,7 @@ public class MongoRepository implements DataRepository {
         if (dbResult.first() == null) {
             log.warn("No limits found in database, inserting default values");
             SensorLimits limits = new SensorLimits(10, 35, 20, 80, 3000);
-            insertLimits(limits);
+            extras.insertOne(limits.toBSON());
         }
         filter = new Document("type", "state");
         dbResult = extras.find(filter);
@@ -88,11 +88,6 @@ public class MongoRepository implements DataRepository {
     }
 
     @Override
-    public void insertLimits(SensorLimits limits) {
-        extras.insertOne(limits.toBSON());
-    }
-
-    @Override
     public SensorLimits getLimits() {
         Document filter = new Document("type", "limit values");
         FindIterable<Document> dbResult = extras.find(filter);
@@ -117,11 +112,6 @@ public class MongoRepository implements DataRepository {
     }
 
     @Override
-    public void insertState(ControlState state) {
-        extras.insertOne(state.toBSON());
-    }
-
-    @Override
     public ControlState getState() {
         Document filter = new Document("type", "state");
         FindIterable<Document> dbResult = extras.find(filter);
@@ -134,7 +124,7 @@ public class MongoRepository implements DataRepository {
     public void updateState(ControlState state) {
         Document filter = new Document("type", "state");
 
-        Document update = new Document("$set", new Document("comment", state.toBSON()));
+        Document update = new Document("$set", state.toBSON());
         extras.updateOne(filter, update);
     }
 
