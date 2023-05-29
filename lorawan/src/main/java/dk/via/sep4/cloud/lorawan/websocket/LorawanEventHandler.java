@@ -50,4 +50,16 @@ public interface LorawanEventHandler {
      * @param dataJson The json data received from the lorawan server.
      */
     void unknownCommandReceived(JSONObject dataJson);
+
+    /**
+     * This method is used to determine the behaviour of the handler when the connection is refreshed.
+     */
+    void onRefresh();
+
+    /**
+     * This method is used to determine whether the handler is listening for events or not.
+     *
+     * @return {@code true} if the handler is listening for events, {@code false} otherwise.
+     */
+    boolean isListening();
 }

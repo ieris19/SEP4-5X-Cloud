@@ -1,30 +1,23 @@
 package dk.via.sep4.cloud.lorawan.websocket;
 
-import dk.via.sep4.cloud.data.DataRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.net.URI;
-
-@Service @Slf4j
+@Slf4j
+@Service
 public class LorawanClient {
-    private final WebsocketHandler websocketHandler;
+    private final LorawanEventHandler lorawanHandler;
 
     @Autowired
-    public LorawanClient(DataRepository dataRepository, URI lorawanURI) {
-        DataHandler dataHandler = new DataHandler(dataRepository);
-        websocketHandler = new WebsocketHandler(lorawanURI, dataHandler);
+    public LorawanClient(@Autowired LorawanEventHandler handler) {
+        this.lorawanHandler = handler;
     }
 
     public boolean refreshConnection() {
-        websocketHandler.refresh();
-        return websocketHandler.isOpen();
-    }
-
-    @Scheduled(fixedRate = 3 * 60 * 1000)
-    public void printStatus() {
-        log.info("Connection status -> {}", websocketHandler.isOpen() ? "open" : "closed");
+        lorawanHandler.onRefresh();
+        return lorawanHandler.isListening();
     }
 }
+
+

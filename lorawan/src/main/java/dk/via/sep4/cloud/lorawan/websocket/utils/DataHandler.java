@@ -1,10 +1,12 @@
-package dk.via.sep4.cloud.lorawan.websocket;
+package dk.via.sep4.cloud.lorawan.websocket.utils;
 
 import dk.via.sep4.cloud.data.DataRepository;
 import dk.via.sep4.cloud.data.dto.SensorLimits;
 import dk.via.sep4.cloud.data.dto.SensorReading;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -13,10 +15,11 @@ import java.util.NoSuchElementException;
 
 
 @Slf4j
+@Component
 public class DataHandler {
     private final DataRepository repository;
 
-    public DataHandler(DataRepository dataRepository) {
+    public DataHandler(@Autowired DataRepository dataRepository) {
         this.repository = dataRepository;
     }
 
@@ -45,18 +48,27 @@ public class DataHandler {
                 looseBitsHex, temperatureHex, humidityHex, co2Hex, soundHex, lightHex);
 
         //Parsing the payload into its correct data types
-        String binaryData = hexByteToBinaryString(looseBitsHex);
-        log.trace("Binary Data: {}", binaryData);
-        boolean pirTriggered = binaryData.charAt(0) == '1';
-        boolean reserved = binaryData.charAt(1) == '1';
-        int errorCode = Integer.parseInt(binaryData.substring(2), 2);
-        double temperature = Integer.parseInt(temperatureHex, 16) / 10d;
-        int humidity = Integer.parseInt(humidityHex, 16);
-        int co2 = Integer.parseInt(co2Hex, 16);
-        int sound = Integer.parseInt(soundHex, 16);
-        int light = Integer.parseInt(lightHex, 16);
-        Timestamp timestamp = Timestamp.valueOf(LocalDateTime.now(ZoneId.of("Europe/Copenhagen")));
-
+        String errorCode;
+        Timestamp timestamp;
+        double temperature;
+        boolean pirTriggered, reserved;
+        int humidity, co2, sound, light;
+        try {
+            String binaryData = hexByteToBinaryString(looseBitsHex);
+            log.trace("Binary Data: {}", binaryData);
+            pirTriggered = binaryData.charAt(0) == '1';
+            reserved = binaryData.charAt(1) == '1';
+            errorCode = binaryData.substring(2);
+            temperature = Integer.parseInt(temperatureHex, 16) / 10d;
+            humidity = Integer.parseInt(humidityHex, 16);
+            co2 = Integer.parseInt(co2Hex, 16);
+            sound = Integer.parseInt(soundHex, 16);
+            light = Integer.parseInt(lightHex, 16);
+            timestamp = Timestamp.valueOf(LocalDateTime.now(ZoneId.of("Europe/Copenhagen")));
+        } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
+            log.error("Could not parse payload into correct data types!", e);
+            return null;
+        }
         return new SensorReading(pirTriggered, temperature, humidity, co2, sound, light, errorCode, timestamp);
     }
 
@@ -66,20 +78,22 @@ public class DataHandler {
             return null;
         }
         String climateState = repository.getState().isOn() ? "1" : "0";
-        if(repository.getState().isOn()){
-            climateState = "1";
-        }
+        String reserved = "0";
         log.trace("Limits: {}", limits);
         StringBuilder hexData = new StringBuilder()
-                .append(climateState).append("0")
-                .append(String.format("%02X", limits.getMaxTemperature()))
-                .append(String.format("%02X", limits.getMinTemperature()))
-                .append(String.format("%02X", limits.getMaxHumidity()))
-                .append(String.format("%02X", limits.getMinHumidity()))
-                .append(String.format("%04X", limits.getMaxCo2()));
+                .append(climateState)
+                .append(reserved)
+                .append(String.format("%02X", limits.maxTemperature()))
+                .append(String.format("%02X", limits.minTemperature()))
+                .append(String.format("%02X", limits.maxHumidity()))
+                .append(String.format("%02X", limits.minHumidity()))
+                .append(String.format("%04X", limits.maxCo2()));
+
         log.trace("Down-link Payload: {}", hexData);
+
         int portNumber = jsonData.getInt("port");
         String eui = jsonData.getString("EUI");
+
         JSONObject payload = new JSONObject();
         payload.put("cmd", "tx");
         payload.put("EUI", eui);
