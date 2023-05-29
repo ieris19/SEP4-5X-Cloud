@@ -35,28 +35,32 @@ public interface DataRepository extends Closeable {
      * This method is used to insert a sensor reading object into the database.
      *
      * @param reading the sensor reading to be inserted.
+     * @return a {@link DataOperationResult} with further information.
      */
-    void insertReading(SensorReading reading);
+    DataOperationResult insertReading(SensorReading reading);
 
     /**
      * This method is used to add a comment to a specified reading.
      *
      * @param id      the id of the reading.
      * @param comment the comment to be added.
+     * @return a {@link DataOperationResult} with further information.
      */
-    void addComment(String id, String comment);
+    DataOperationResult addComment(String id, String comment);
 
     /**
      * This method is used to update the sensor limits in the database.
      *
      * @param limits the sensor limits to be updated.
+     * @return a {@link DataOperationResult} with further information.
      */
-    void updateLimits(SensorLimits limits);
+    DataOperationResult updateLimits(SensorLimits limits);
 
     /**
      * This method is used to update the sensor state in the database.
      *
      * @param state the sensor state to be updated.
+     * @return a {@link DataOperationResult} with further information.
      */
-    void updateState(ControlState state);
+    DataOperationResult updateState(ControlState state);
 }
