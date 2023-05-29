@@ -4,10 +4,6 @@ import org.bson.Document;
 import org.json.JSONObject;
 
 public record ControlState(boolean isOn) {
-    public ControlState(boolean isOn) {
-        this.isOn = isOn;
-    }
-
     public static ControlState fromJson(String jsonString) {
         JSONObject dataJson = new JSONObject(jsonString);
         return new ControlState(dataJson.getBoolean("isOn"));

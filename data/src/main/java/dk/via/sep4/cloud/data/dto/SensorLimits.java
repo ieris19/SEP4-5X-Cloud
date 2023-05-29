@@ -7,14 +7,6 @@ import org.json.JSONObject;
  * This class is used to store the sensor limits data in a Java environment.
  */
 public record SensorLimits(int minTemperature, int maxTemperature, int minHumidity, int maxHumidity, int maxCo2) {
-    public SensorLimits(int minTemperature, int maxTemperature, int minHumidity, int maxHumidity, int maxCo2) {
-        this.minTemperature = minTemperature;
-        this.maxTemperature = maxTemperature;
-        this.minHumidity = minHumidity;
-        this.maxHumidity = maxHumidity;
-        this.maxCo2 = maxCo2;
-    }
-
     public static SensorLimits fromJson(String jsonString) {
         int minTemperature, maxTemperature, minHumidity, maxHumidity, maxCo2;
         JSONObject dataJson = new JSONObject(jsonString);

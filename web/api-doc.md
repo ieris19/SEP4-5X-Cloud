@@ -13,23 +13,29 @@ endpoints:
 
 ## Sensor Readings Endpoint
 
-### **GET** /readings?date={date(yyyy-mm-dd)}
+### **GET** /readings?requestDate={date(yyyy-mm-dd)}
 
-This endpoint returns the sensor readings for the given date.
-The readings are provided in the following JSON format (order not-guaranteed)
+This endpoint returns the sensor readings for the given date in an array.
+If the query doesn't include the `requestDate` parameter, the endpoint returns the readings for the current date.
+The individual readings are provided in the following JSON format (order not-guaranteed)
+
 
 ```json
-{
-  "id": "ID",
-  "code": 11,
-  "temperature": 2.2,
-  "co2": 33,
-  "humidity": 44,
-  "light": 55,
-  "sound": 66,
-  "pir": false,
-  "timeReceived": "7777-88-99 11:22:33.444"
-}
+[
+  {
+    "id": "ID",
+    "code": 11,
+    "temperature": 2.2,
+    "co2": 33,
+    "humidity": 44,
+    "light": 55,
+    "sound": 66,
+    "pir": false,
+    "time": "7777-88-99 11:22:33.444",
+    "comment": "A comment"
+  }
+  //..
+]
 ```
 
 It can return the following status codes:
@@ -98,7 +104,7 @@ This endpoint returns the sensor status. The status is provided in the following
 
 ```json
 {
-  "state": false
+  "isOn": false
 }
 ```
 
@@ -113,7 +119,7 @@ request body
 
 ```json
 {
-  "state": false
+  "isOn": false
 }
 ```
 
