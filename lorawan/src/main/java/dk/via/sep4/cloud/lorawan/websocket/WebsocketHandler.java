@@ -136,6 +136,7 @@ public class WebsocketHandler implements LorawanEventHandler {
                 case "txd" -> WebsocketHandler.this.onDownLinkConfirmation(dataJson);
                 default -> WebsocketHandler.this.unknownCommandReceived(dataJson);
             }
+            webSocket.request(1);
             return CompletableFuture.completedFuture("Message processed").thenAccept(log::trace);
         }
     }
