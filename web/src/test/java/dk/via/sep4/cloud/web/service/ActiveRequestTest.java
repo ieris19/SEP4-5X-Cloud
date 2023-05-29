@@ -10,11 +10,10 @@ import java.net.http.HttpResponse;
 import java.util.Scanner;
 
 public class ActiveRequestTest {
-    private static HttpTestClient client;
-
     private static final String PUT_LIMITS_BODY;
     private static final String PUT_STATE_BODY;
     private static final String PUT_COMMENT_BODY;
+    private static HttpTestClient client;
 
     static {
         try (Scanner reader = new Scanner(new File(ActiveRequestTest.class.getResource("requestBodies").toURI()))) {
