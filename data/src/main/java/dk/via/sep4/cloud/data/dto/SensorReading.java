@@ -94,7 +94,7 @@ public class SensorReading {
 
 	public JSONObject toJSON() {
 		JSONObject object=new JSONObject();
-
+		object.put("id", this.id);
 		object.put("pir", this.pir);
 		object.put("temperature", this.temperature);
 		object.put("humidity", this.humidity);

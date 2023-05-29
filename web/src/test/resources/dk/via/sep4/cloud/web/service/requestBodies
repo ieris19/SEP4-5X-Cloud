@@ -1,0 +1,3 @@
+{"maxTemperature":35,"minTemperature":10,"maxHumidity":80,"maxCo2":3000,"minHumidity":20}
+{"state":false}
+{"id": "A reading ID","comment":"A comment for that reading"}
