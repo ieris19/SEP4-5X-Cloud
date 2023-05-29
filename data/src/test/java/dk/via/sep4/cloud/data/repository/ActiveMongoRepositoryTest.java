@@ -31,7 +31,7 @@ class ActiveMongoRepositoryTest {
     public static void main(String[] args) {
         setUp();
         //Inserting reading example
-        mongoRepository.insertReading(new SensorReading(true, 41, 80, 369, 42, 150, 527, Timestamp.valueOf(LocalDateTime.of(2023, 5, 15, 13, 22, 23))));
+//        mongoRepository.insertReading(new SensorReading(true, 41, 80, 369, 42, 150, 527, Timestamp.valueOf(LocalDateTime.of(2023, 5, 15, 13, 22, 23))));
 //        //Retrieving readings example
         SensorReading[] list = mongoRepository.getReadings("2023-05-15");
 //
@@ -40,13 +40,13 @@ class ActiveMongoRepositoryTest {
         }
 //
 //        //Inserting sensor limits example
-        mongoRepository.insertLimits(new SensorLimits(10, 35, 20, 80, 1000));
+//        mongoRepository.insertLimits(new SensorLimits(10, 35, 20, 80, 1000));
 //
 //        //Retrieving limits example
         logger.info(mongoRepository.getLimits().toString());
 //
 //        //Updating limits example
-        mongoRepository.updateLimits("10", "35", "20", "80", "3000");
+//        mongoRepository.updateLimits("10", "35", "20", "80", "3000");
         logger.info(mongoRepository.getLimits().toString());
         logger.info(mongoRepository.getReadings("2023-05-15").toString());
 
@@ -61,7 +61,7 @@ class ActiveMongoRepositoryTest {
         System.out.println(mongoRepository.getState().toString());
 
         //Updating sensor state example
-        mongoRepository.updateState("false");
+//        mongoRepository.updateState("false");
         System.out.println(mongoRepository.getState().toString());
     }
 

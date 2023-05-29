@@ -46,22 +46,29 @@ public class MongoRepository implements DataRepository {
         logger.info("Successfully established a connection to MongoDB");
     }
 
+    void initUniqueObjects()
+    {
+        Document filter = new Document("type", "limit values");
+        FindIterable<Document> dbResult = extras.find(filter);
+        if (dbResult.first() == null) {
+            SensorLimits limits = new SensorLimits(10, 35, 20, 80, 3000);
+            insertLimits(limits);
+        }
+        filter = new Document("type", "state");
+        dbResult = extras.find(filter);
+        if (dbResult.first() == null) {
+            SensorState state = new SensorState("OFF");
+            extras.insertOne(state.toBSON());
+        }
+    }
+
     void clearEntireDatabase() {
        db.drop();
     }
 
     @Override
     public void insertReading(SensorReading reading) {
-        Document readingDocument = new Document("pir", reading.isPir())
-                .append("temperature", reading.getTemperature())
-                .append("humidity", reading.getHumidity())
-                .append("co2", reading.getCo2())
-                .append("sound", reading.getSound())
-                .append("light", reading.getLight())
-                .append("code", reading.getCode())
-                .append("time", reading.getTimeReceived());
-
-        readings.insertOne(readingDocument);
+        readings.insertOne(reading.toBSON());
     }
 
     @Override
@@ -84,13 +91,7 @@ public class MongoRepository implements DataRepository {
 
     @Override
     public void insertLimits(SensorLimits limits) {
-        Document limitsDocument = new Document("type", "limit values")
-                .append("minTemperature", limits.getMinTemperature())
-                .append("maxTemperature", limits.getMaxTemperature())
-                .append("minHumidity", limits.getMinHumidity())
-                .append("maxHumidity", limits.getMaxHumidity())
-                .append("maxCo2", limits.getMaxCo2());
-        extras.insertOne(limitsDocument);
+        extras.insertOne(limits.toBSON());
     }
 
     @Override
@@ -103,31 +104,23 @@ public class MongoRepository implements DataRepository {
     }
 
     @Override
-    public void updateLimits(String minTemperature, String maxTemperature, String minHumidity, String maxHumidity, String maxCo2) {
+    public void addComment(String id, String comment) {
+        Document filter = new Document("_id", id);
+        Document update = new Document("$set", new Document("comment", comment));
+        readings.updateOne(filter, update);
+    }
+
+    @Override
+    public void updateLimits(SensorLimits limits) {
         Document filter = new Document("type", "limit values");
 
-        SensorLimits limits = new SensorLimits();
-        limits.setMinTemperature(Integer.valueOf(minTemperature));
-        limits.setMaxTemperature(Integer.valueOf(maxTemperature));
-        limits.setMinHumidity(Integer.valueOf(minHumidity));
-        limits.setMaxHumidity(Integer.valueOf(maxHumidity));
-        limits.setMaxCo2(Integer.valueOf(maxCo2));
-
-        Document limitsDocument = new Document("type", "limit values")
-                .append("minTemperature", limits.getMinTemperature())
-                .append("maxTemperature", limits.getMaxTemperature())
-                .append("minHumidity", limits.getMinHumidity())
-                .append("maxHumidity", limits.getMaxHumidity())
-                .append("maxCo2", limits.getMaxCo2());
         extras.findOneAndDelete(filter);
-        extras.insertOne(limitsDocument);
+        extras.insertOne(limits.toBSON());
     }
 
     @Override
     public void insertState(SensorState state) {
-        Document stateDocument = new Document("type", "state")
-                .append("isOn", state.isOn());
-        extras.insertOne(stateDocument);
+        extras.insertOne(state.toBSON());
     }
 
     @Override
@@ -140,15 +133,11 @@ public class MongoRepository implements DataRepository {
     }
 
     @Override
-    public void updateState(String state) {
+    public void updateState(SensorState state) {
         Document filter = new Document("type", "state");
 
-        SensorState stateObject = new SensorState(Boolean.valueOf(state));
-
-        Document stateDocument = new Document("type", "state")
-                .append("isOn", stateObject.isOn());
         extras.findOneAndDelete(filter);
-        extras.insertOne(stateDocument);
+        extras.insertOne(state.toBSON());
     }
 
     @Override

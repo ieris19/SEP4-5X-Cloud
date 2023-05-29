@@ -1,6 +1,7 @@
 package dk.via.sep4.cloud.data.dto;
 
 import lombok.Data;
+import org.bson.Document;
 import org.json.JSONObject;
 
 import java.sql.Timestamp;
@@ -23,6 +24,7 @@ public class SensorReading {
 	private int light;
 	private int code;
 	private Timestamp timeReceived;
+	private String comment;
 
 	public SensorReading() {
 	}
@@ -36,6 +38,17 @@ public class SensorReading {
 		this.light = light;
 		this.code = code;
 		this.timeReceived = timeReceived;
+	}
+	public SensorReading(boolean pir, double temperature, int humidity, int co2, int sound, int light, int code, Timestamp timeReceived, String comment) {
+		this.pir = pir;
+		this.temperature = temperature;
+		this.humidity = humidity;
+		this.co2 = co2;
+		this.sound = sound;
+		this.light = light;
+		this.code = code;
+		this.timeReceived = timeReceived;
+		this.comment=comment;
 	}
 
 	public SensorReading(String jsonString) {
@@ -59,9 +72,39 @@ public class SensorReading {
 				.appendLiteral("Z")
 				.toFormatter();
 		this.timeReceived = Timestamp.valueOf(LocalDateTime.parse(timeJson.getString("$date"), format));
+		this.comment=dataJson.getString("comment");
 	}
 
 	@Override public String toString() {
 		return String.format("Reading[pir=%s, temperature=%s, humidity=%s, co2=%s, sound=%s, light=%s, code=%s, timeReceived=%s]", pir, temperature, humidity, co2, sound, light, code, timeReceived);
+	}
+	public Document toBSON()
+	{
+		Document readingDocument = new Document("pir", this.pir)
+				.append("temperature", this.temperature)
+				.append("humidity", this.humidity)
+				.append("co2", this.co2)
+				.append("sound", this.sound)
+				.append("light", this.light)
+				.append("code", this.code)
+				.append("time", this.timeReceived)
+				.append("comment", this.comment);
+		return readingDocument;
+	}
+
+	public JSONObject toJSON() {
+		JSONObject object=new JSONObject();
+
+		object.put("pir", this.pir);
+		object.put("temperature", this.temperature);
+		object.put("humidity", this.humidity);
+		object.put("co2", this.co2);
+		object.put("sound", this.sound);
+		object.put("light", this.light);
+		object.put("code", this.code);
+		object.put("time", this.timeReceived);
+		object.put("comment", this.comment);
+
+		return object;
 	}
 }
