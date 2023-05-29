@@ -1,16 +1,13 @@
 package dk.via.sep4.cloud.data.repository;
 
 import com.ieris19.lib.files.config.FileProperties;
-import dk.via.sep4.cloud.data.dto.SensorLimits;
+import dk.via.sep4.cloud.data.dto.ControlState;
 import dk.via.sep4.cloud.data.dto.SensorReading;
-import dk.via.sep4.cloud.data.dto.SensorState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URI;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 class ActiveMongoRepositoryTest {
     private static MongoRepository mongoRepository;
@@ -55,7 +52,7 @@ class ActiveMongoRepositoryTest {
 //        }
 
         //Inserting sensor state example
-        mongoRepository.insertState(new SensorState(true));
+        mongoRepository.insertState(new ControlState(true));
 
         //Retrieving sensor state example
         System.out.println(mongoRepository.getState().toString());
