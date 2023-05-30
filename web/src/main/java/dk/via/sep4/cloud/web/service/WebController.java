@@ -77,7 +77,7 @@ public class WebController {
     @PutMapping("/state")
     public ResponseEntity<String> updateState(@RequestBody String state) {
         try {
-            DataResultStatus result = repository.updateState(state);;
+            DataResultStatus result = repository.updateState(state);
             return result.httpResponse();
         } catch (Exception e) {
             return handleException(e);

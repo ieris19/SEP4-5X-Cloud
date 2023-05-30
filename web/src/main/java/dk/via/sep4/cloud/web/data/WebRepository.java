@@ -1,10 +1,10 @@
 package dk.via.sep4.cloud.web.data;
 
-import dk.via.sep4.cloud.data.repository.DataOperationResult;
-import dk.via.sep4.cloud.data.repository.DataRepository;
 import dk.via.sep4.cloud.data.dto.ControlState;
 import dk.via.sep4.cloud.data.dto.SensorLimits;
 import dk.via.sep4.cloud.data.dto.SensorReading;
+import dk.via.sep4.cloud.data.repository.DataOperationResult;
+import dk.via.sep4.cloud.data.repository.DataRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;

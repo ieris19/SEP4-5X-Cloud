@@ -8,6 +8,7 @@ endpoints:
 ## All Endpoints Status Codes
 
 The following status codes are configured for all endpoints:
+
 - **Status Code: 404**: Not Found, the requested URL doesn't correspond to any endpoint
 - **Status Code: 400**: Bad Request, the request exists, but something about it is invalid. If the error is known,
   details are returned in the response body
@@ -17,6 +18,7 @@ The following status codes are configured for all endpoints:
 ## PUT Endpoints Status Codes
 
 Put methods need to be able to report on the status of the operation, so they return the following status codes:
+
 - **Status Code: 200**: OK, the operation was successfully completed as intended
 - **Status Code: 202**: Accepted, the operation was accepted, but it didn't affect the state of the system
 - **Status Code: 500**: Server Error, the server did NOT acknowledge the operation
@@ -28,7 +30,6 @@ Put methods need to be able to report on the status of the operation, so they re
 This endpoint returns the sensor readings for the given date in an array.
 If the query doesn't include the `requestDate` parameter, the endpoint returns the readings for the current date.
 The individual readings are provided in the following JSON format (order not-guaranteed)
-
 
 ```json
 [
@@ -97,6 +98,7 @@ This endpoint updates the sensor limits. The limits need to be provided in the f
   "maxCo2": 44
 }
 ```
+
 ## Sensor Status Endpoint
 
 ### **GET** /state

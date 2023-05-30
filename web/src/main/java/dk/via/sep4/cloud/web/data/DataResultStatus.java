@@ -1,12 +1,11 @@
 package dk.via.sep4.cloud.web.data;
 
 import dk.via.sep4.cloud.data.repository.DataOperationResult;
-import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 public enum DataResultStatus {
-    OK(HttpStatus.OK,"Operation completed successfully!"),
+    OK(HttpStatus.OK, "Operation completed successfully!"),
     UNAFFECTED(HttpStatus.ACCEPTED, "No data affected!"),
     UNSUCCESSFUL(HttpStatus.INTERNAL_SERVER_ERROR, "Operation unsuccessful!");
 
@@ -14,9 +13,6 @@ public enum DataResultStatus {
 
     DataResultStatus(HttpStatus status, String body) {
         this.dataResponse = ResponseEntity.status(status).body(body);
-    }
-    public ResponseEntity<String> httpResponse() {
-        return dataResponse;
     }
 
     public static DataResultStatus of(DataOperationResult result) {
@@ -27,5 +23,9 @@ public enum DataResultStatus {
             return DataResultStatus.UNAFFECTED;
         }
         return DataResultStatus.OK;
+    }
+
+    public ResponseEntity<String> httpResponse() {
+        return dataResponse;
     }
 }

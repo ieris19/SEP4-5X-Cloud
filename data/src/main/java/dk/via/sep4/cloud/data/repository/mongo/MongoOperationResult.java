@@ -11,6 +11,7 @@ public class MongoOperationResult extends DataOperationResult {
         this.isSuccessful = isSuccessful;
         this.affectedCount = affectedCount;
     }
+
     public static MongoOperationResult from(InsertOneResult result) {
         BsonValue idValue = result.getInsertedId();
         return idValue != null ?

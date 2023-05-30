@@ -7,6 +7,7 @@ public abstract class DataOperationResult {
     public boolean isSuccessful() {
         return isSuccessful;
     }
+
     public long getAffectedCount() {
         return affectedCount;
     }
