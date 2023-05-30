@@ -1,14 +1,13 @@
-package dk.via.sep4.cloud.data.repository;
+package dk.via.sep4.cloud.data.repository.mongo;
 
 import com.ieris19.lib.files.config.FileProperties;
 import com.mongodb.client.*;
-import com.mongodb.client.result.InsertOneResult;
-import com.mongodb.client.result.UpdateResult;
 import dk.via.sep4.cloud.data.dto.ControlState;
 import dk.via.sep4.cloud.data.dto.SensorLimits;
 import dk.via.sep4.cloud.data.dto.SensorReading;
+import dk.via.sep4.cloud.data.repository.DataOperationResult;
+import dk.via.sep4.cloud.data.repository.DataRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.BsonValue;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 

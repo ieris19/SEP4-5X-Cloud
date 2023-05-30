@@ -1,9 +1,9 @@
-package dk.via.sep4.cloud.data.repository;
+package dk.via.sep4.cloud.data.repository.mongo;
 
 
 import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
-import lombok.Value;
+import dk.via.sep4.cloud.data.repository.DataOperationResult;
 import org.bson.BsonValue;
 
 public class MongoOperationResult extends DataOperationResult {
