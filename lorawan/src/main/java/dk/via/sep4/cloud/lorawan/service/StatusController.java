@@ -22,7 +22,7 @@ public class StatusController {
     public ResponseEntity<String> getStatus() {
         boolean isHealthy = lorawanClient.refreshConnection();
         if (isHealthy) {
-            log.info("Connection Successfully Refreshed through the API");
+            log.debug("Connection Successfully Refreshed through the API");
         } else {
             log.error("Connection Failed to Refresh through the API");
         }
