@@ -1,8 +1,8 @@
 package dk.via.sep4.cloud.lorawan.websocket.utils;
 
-import dk.via.sep4.cloud.data.DataRepository;
 import dk.via.sep4.cloud.data.dto.SensorLimits;
 import dk.via.sep4.cloud.data.dto.SensorReading;
+import dk.via.sep4.cloud.data.repository.DataRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,7 +77,11 @@ public class DataHandler {
         if (limits == null) {
             return null;
         }
-        String climateState = repository.getState().isOn() ? "1" : "0";
+        /*
+        Since the payload is hexadecimals, in order to achieve the first bit being the on/off state, meaning the
+        payload starting with 1000 or 0000, the first hex digit has to be either 8 or 0.
+        */
+        String climateState = repository.getState().isOn() ? "8" : "0";
         String reserved = "0";
         log.trace("Limits: {}", limits);
         StringBuilder hexData = new StringBuilder()

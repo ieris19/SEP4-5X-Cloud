@@ -1,6 +1,5 @@
 package dk.via.sep4.cloud.data.dto;
 
-import lombok.Data;
 import org.bson.Document;
 import org.json.JSONException;
 import org.json.JSONObject;

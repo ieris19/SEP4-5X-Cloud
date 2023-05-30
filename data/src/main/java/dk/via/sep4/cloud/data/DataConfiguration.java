@@ -1,6 +1,6 @@
 package dk.via.sep4.cloud.data;
 
-import dk.via.sep4.cloud.data.repository.MongoRepository;
+import dk.via.sep4.cloud.data.repository.mongo.MongoRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
