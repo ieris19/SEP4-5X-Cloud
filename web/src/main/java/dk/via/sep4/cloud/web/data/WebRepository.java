@@ -53,27 +53,17 @@ public class WebRepository implements Closeable {
         String id = jsonBody.getString("id");
         String comment = jsonBody.getString("comment");
         DataOperationResult result = repository.addComment(id, comment);
-        return updateResultStatus(result);
+        return DataResultStatus.of(result);
     }
 
     public DataResultStatus updateLimits(String jsonLimits) {
         DataOperationResult result = repository.updateLimits(SensorLimits.fromJson(jsonLimits));
-        return updateResultStatus(result);
+        return DataResultStatus.of(result);
     }
 
     public DataResultStatus updateState(String stateJson) {
         DataOperationResult result = repository.updateState(ControlState.fromJson(stateJson));
-        return updateResultStatus(result);
-    }
-
-    private DataResultStatus updateResultStatus(DataOperationResult result) {
-        if (!result.isSuccessful()) {
-            return DataResultStatus.NOT_ACKNOWLEDGED;
-        }
-        if (result.getAffectedCount() < 1) {
-            return DataResultStatus.NO_DATA_AFFECTED;
-        }
-        return DataResultStatus.OK;
+        return DataResultStatus.of(result);
     }
 
     public void close() throws IOException {

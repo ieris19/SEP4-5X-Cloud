@@ -39,12 +39,8 @@ public class WebController {
     @PutMapping("/comment")
     public ResponseEntity<String> addComment(@RequestBody String body) {
         try {
-            DataResultStatus status = repository.addComment(body);
-            return switch (status) {
-                case OK -> ResponseEntity.ok("Comment added successfully!");
-                case NO_DATA_AFFECTED -> ResponseEntity.accepted().body("No data affected!");
-                case NOT_ACKNOWLEDGED -> ResponseEntity.internalServerError().body("Comment not acknowledged!");
-            };
+            DataResultStatus result = repository.addComment(body);
+            return result.httpResponse();
         } catch (Exception e) {
             return handleException(e);
         }
@@ -62,12 +58,8 @@ public class WebController {
     @PutMapping("/limits")
     public ResponseEntity<String> updateLimits(@RequestBody String jsonLimits) {
         try {
-            DataResultStatus status = repository.updateLimits(jsonLimits);
-            return switch (status) {
-                case OK -> ResponseEntity.ok("Limits updated successfully!");
-                case NO_DATA_AFFECTED -> ResponseEntity.accepted().body("No data affected!");
-                case NOT_ACKNOWLEDGED -> ResponseEntity.internalServerError().body("Limits not acknowledged!");
-            };
+            DataResultStatus result = repository.updateLimits(jsonLimits);
+            return result.httpResponse();
         } catch (Exception e) {
             return handleException(e);
         }
@@ -85,12 +77,8 @@ public class WebController {
     @PutMapping("/state")
     public ResponseEntity<String> updateState(@RequestBody String state) {
         try {
-            DataResultStatus status = repository.updateState(state);;
-            return switch (status) {
-                case OK -> ResponseEntity.ok("State updated successfully!");
-                case NO_DATA_AFFECTED -> ResponseEntity.accepted().body("No data affected!");
-                case NOT_ACKNOWLEDGED -> ResponseEntity.internalServerError().body("State change not acknowledged!");
-            };
+            DataResultStatus result = repository.updateState(state);;
+            return result.httpResponse();
         } catch (Exception e) {
             return handleException(e);
         }
