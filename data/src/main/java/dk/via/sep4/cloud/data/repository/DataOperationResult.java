@@ -1,7 +1,13 @@
 package dk.via.sep4.cloud.data.repository;
 
-public interface DataOperationResult {
-    boolean isSuccessful();
-    long getAffectedCount();
-    String getAdditionalInfo();
+public abstract class DataOperationResult {
+    protected boolean isSuccessful;
+    protected long affectedCount;
+
+    public boolean isSuccessful() {
+        return isSuccessful;
+    }
+    public long getAffectedCount() {
+        return affectedCount;
+    }
 }
