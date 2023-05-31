@@ -1,0 +1,122 @@
+name: Deploy a new version to Google Cloud Run
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  web-api-deploy:
+    name: Deploy the Web-API-Service to Google Cloud Run
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repository content
+        uses: actions/checkout@v3
+
+      - name: Set up Java Environment (JDK 17 & Maven)
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - id: java-build
+        name: Build the application with Maven
+        run: mvn --batch-mode --fail-fast clean package -DskipTests --file pom.xml
+
+      - id: get-version
+        name: Get the version information from the pushed tag
+        run: echo "tag=${GITHUB_REF#refs/v*/}" >> $GITHUB_OUTPUT
+
+      - id: docker-login
+        name: Authentication for to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DH_USER }}
+          password: ${{ secrets.DH_TOKEN }}
+
+      - id: docker-build-push-web
+        name: Build and Push the Docker Image for Web Service
+        uses: docker/build-push-action@v4
+        with:
+          context: ./web/
+          file: ./web/Dockerfile
+          push: true
+          tags: ieris19/sep4-web-service:${{steps.get-version.outputs.tag}}
+
+      - id: gc-auth
+        name: Authentication for Google Cloud
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: ${{ secrets.GC_WIF_PROVIDER }}
+          service_account: ${{ secrets.GC_SERVICE_ACCOUNT }}
+
+      - id: api-deploy
+        name: Deploy Web-API-Service through Google Cloud CLI
+        run: |
+          gcloud run deploy web-api --image=docker.io/ieris19/sep4-web-service:${{steps.get-version.outputs.tag}} 
+          --set-secrets=mongodb_url=mongodb_url:1 --region=europe-west4 --project=${{ secrets.GC_PROJECT_ID }} 
+          && gcloud run services update-traffic web-api --to-latest
+
+  lorawan-deploy:
+    name: Deploy the Web-API-Service to Google Cloud Run
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repository content
+        uses: actions/checkout@v3
+
+      - name: Set up Java Environment (JDK 17 & Maven)
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - id: java-build
+        name: Build the application with Maven
+        run: mvn --batch-mode --fail-fast clean package -DskipTests --file pom.xml
+
+      - id: get-version
+        name: Get the version information from the pushed tag
+        run: echo "tag=${GITHUB_REF#refs/v*/}" >> $GITHUB_OUTPUT
+
+      - id: docker-login
+        name: Authentication for to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DH_USER }}
+          password: ${{ secrets.DH_TOKEN }}
+
+      - id: docker-build-push-lorawan
+        name: Build and Push the Docker Image for LoRaWAN Service
+        uses: docker/build-push-action@v4
+        with:
+          context: ./lorawan/
+          file: ./lorawan/Dockerfile
+          push: true
+          tags: ieris19/sep4-lorawan-service:${{steps.get-version.outputs.tag}}
+
+      - id: gc-auth
+        name: Authentication for Google Cloud
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: ${{ secrets.GC_WIF_PROVIDER }}
+          service_account: ${{ secrets.GC_SERVICE_ACCOUNT }}
+
+      - id: lorawan-deploy
+        name: Deploy Lorawan-Service through Google Cloud CLI
+        run: |
+          gcloud run deploy lorawan-service --image=docker.io/ieris19/sep4-lorawan-service:${{steps.get-version.outputs.tag}} 
+          --set-secrets=mongodb_url=mongodb_url:1,lorawan_EUI_dev=lorawan_EUI-dev:1,lorawan_url=lorawan_url:1 
+          --region=europe-west4 --project=${{ secrets.GC_PROJECT_ID }}
+          && gcloud run services update-traffic lorawan-service --to-latest
