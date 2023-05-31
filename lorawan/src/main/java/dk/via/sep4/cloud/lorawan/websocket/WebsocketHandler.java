@@ -81,6 +81,8 @@ public class WebsocketHandler implements LorawanEventHandler {
         if (!isOpen) {
             log.info("Refreshing WebSocket connection");
             this.webSocket = WebSocketFactory.createWebSocket(this.listener);
+        } else {
+            this.webSocket.request(1);
         }
     }
 

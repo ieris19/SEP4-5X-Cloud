@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -18,11 +18,11 @@ public class StatusController {
         this.lorawanClient = lorawanClient;
     }
 
-    @GetMapping("/status")
+    @RequestMapping("/status")
     public ResponseEntity<String> getStatus() {
         boolean isHealthy = lorawanClient.refreshConnection();
         if (isHealthy) {
-            log.info("Connection Successfully Refreshed through the API");
+            log.debug("Connection Successfully Refreshed through the API");
         } else {
             log.error("Connection Failed to Refresh through the API");
         }
