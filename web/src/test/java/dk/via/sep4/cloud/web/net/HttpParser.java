@@ -1,4 +1,4 @@
-package dk.via.sep4.cloud.web.service;
+package dk.via.sep4.cloud.web.net;
 
 import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
