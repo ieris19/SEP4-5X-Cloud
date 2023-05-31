@@ -29,21 +29,21 @@ public class MockData {
                     "$oid": "6474b2019d33e94c6ddf9e2e"
                     },
                     "type": "limit values",
-                    "minTemperature": 4500,
-                    "maxTemperature": 5000,
+                    "minTemperature": 15,
+                    "maxTemperature": 25,
                     "minHumidity": 30,
                     "maxHumidity": 60,
                     "maxCo2": 800
                     }
                     """.trim().replace(" ", "").replace("\n", "");
     public static final String[] LIMIT_PAIRS = new String[]{
-            "\"minTemperature\":4500",
-            "\"maxTemperature\":5000",
+            "\"minTemperature\":15",
+            "\"maxTemperature\":25",
             "\"minHumidity\":30",
             "\"maxHumidity\":60",
             "\"maxCo2\":800",
     };
-    public static final SensorLimits LIMIT_SAMPLE = new SensorLimits(4500, 5000, 30, 60, 800);
+    public static final SensorLimits LIMIT_SAMPLE = new SensorLimits(15, 25, 30, 60, 800);
     public static final String READING_DATA =
             """
                     {

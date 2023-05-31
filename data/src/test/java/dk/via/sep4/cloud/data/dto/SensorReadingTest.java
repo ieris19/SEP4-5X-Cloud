@@ -1,5 +1,6 @@
 package dk.via.sep4.cloud.data.dto;
 
+import dk.via.sep4.cloud.data.repository.MockData;
 import dk.via.sep4.cloud.data.repository.MockRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -18,10 +19,10 @@ class SensorReadingTest extends JsonDTOTestable<SensorReading> {
     private SensorReading legacyReading;
 
     @BeforeEach
-    void setUp() {
-        dataJSON = MockRepository.READING_DATA;
-        webJSONPairs = MockRepository.READING_PAIRS;
-        sample = MockRepository.READING_SAMPLE;
+    public void setUp() {
+        dataJSON = MockData.READING_DATA;
+        webJSONPairs = MockData.READING_PAIRS;
+        sample = MockData.READING_SAMPLE;
         legacyJSON =
                 """
                         {
@@ -46,14 +47,14 @@ class SensorReadingTest extends JsonDTOTestable<SensorReading> {
     }
 
     @Test
-    void fromLegacyJson() {
+    public void fromLegacyJson() {
         SensorReading test = SensorReading.fromJson(legacyJSON);
         assertEquals(legacyReading, test);
     }
 
     @Test
     @Disabled
-    void toBSON() {
+    public void toBSON() {
         //TODO: Actually test BSON conversion
         assertDoesNotThrow(() -> sample.toBSON());
     }

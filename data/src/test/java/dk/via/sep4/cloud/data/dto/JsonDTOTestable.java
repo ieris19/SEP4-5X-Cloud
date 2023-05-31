@@ -17,7 +17,7 @@ public abstract class JsonDTOTestable<T extends JsonTransformable> {
     abstract void setUp();
 
     @Test
-    void fromJson() {
+    public void fromJson() {
         try {
             Object fromJson = sample.getClass().getDeclaredMethod("fromJson", String.class)
                     .invoke(null, dataJSON);
@@ -32,7 +32,7 @@ public abstract class JsonDTOTestable<T extends JsonTransformable> {
     }
 
     @Test
-    void toJSON() {
+    public void toJSON() {
         String json = sample.toJSON().toString();
         assertTrue(JsonComparator.contains(json, webJSONPairs), "toJSON() does not return correct JSON");
     }
