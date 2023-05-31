@@ -1,5 +1,6 @@
 package dk.via.sep4.cloud.data.dto;
 
+import dk.via.sep4.cloud.data.utils.JsonComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +19,7 @@ public abstract class JsonDTOTestable<T extends JsonTransformable> {
     @Test
     void fromJson() {
         try {
-            T fromJson = (T) sample.getClass().getDeclaredMethod("fromJson", String.class)
+            Object fromJson = sample.getClass().getDeclaredMethod("fromJson", String.class)
                     .invoke(null, dataJSON);
             assertEquals(fromJson, sample, "fromJson() does not return equal object");
         } catch (NullPointerException e) {
@@ -33,8 +34,6 @@ public abstract class JsonDTOTestable<T extends JsonTransformable> {
     @Test
     void toJSON() {
         String json = sample.toJSON().toString();
-        for (String pair : webJSONPairs) {
-            assertTrue(json.contains(pair), "JSON does not contain " + pair);
-        }
+        assertTrue(JsonComparator.contains(json, webJSONPairs), "toJSON() does not return correct JSON");
     }
 }
