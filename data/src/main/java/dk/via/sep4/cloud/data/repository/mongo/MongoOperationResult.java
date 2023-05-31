@@ -8,8 +8,7 @@ import org.bson.BsonValue;
 
 public class MongoOperationResult extends DataOperationResult {
     MongoOperationResult(boolean isSuccessful, long affectedCount) {
-        this.isSuccessful = isSuccessful;
-        this.affectedCount = affectedCount;
+        super(isSuccessful, affectedCount);
     }
 
     public static MongoOperationResult from(InsertOneResult result) {

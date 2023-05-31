@@ -39,7 +39,7 @@ public class DataHandler {
             humidityHex = hexData.substring(6, 8);
             co2Hex = hexData.substring(8, 12);
             soundHex = hexData.substring(12, 16);
-            lightHex = hexData.substring(16, 19);
+            lightHex = hexData.substring(16, 20);
         } catch (StringIndexOutOfBoundsException e) {
             log.error("Payload was not long enough to be parsed! {}", e.getMessage());
             return null;

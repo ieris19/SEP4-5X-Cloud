@@ -1,4 +1,4 @@
-package dk.via.sep4.cloud.web.service;
+package dk.via.sep4.cloud.web.net;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
